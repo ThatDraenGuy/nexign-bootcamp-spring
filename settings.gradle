@@ -1,0 +1,6 @@
+rootProject.name = 'spring'
+include 'common'
+include 'brt'
+include 'hrs'
+include 'crm'
+
