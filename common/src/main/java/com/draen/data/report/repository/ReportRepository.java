@@ -1,4 +1,4 @@
-package com.draen.domain.repository;
+package com.draen.data.report.repository;
 
 import com.draen.domain.entity.Report;
 import org.springframework.data.repository.CrudRepository;
