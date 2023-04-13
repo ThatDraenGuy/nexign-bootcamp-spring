@@ -2,10 +2,11 @@ package com.draen.data.tariff.service;
 
 import com.draen.data.tariff.repostiory.TariffRepository;
 import com.draen.domain.entity.Tariff;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.List;
 
+@Service
 public class TariffServiceImpl implements TariffService {
     private final TariffRepository repository;
     private final TransactionTemplate transactionTemplate;

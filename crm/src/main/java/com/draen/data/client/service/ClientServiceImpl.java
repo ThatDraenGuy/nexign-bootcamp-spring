@@ -1,8 +1,8 @@
 package com.draen.data.client.service;
 
+import com.draen.data.client.repository.ClientRepository;
 import com.draen.data.payment.dto.PaymentDto;
 import com.draen.domain.entity.Client;
-import com.draen.data.client.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 

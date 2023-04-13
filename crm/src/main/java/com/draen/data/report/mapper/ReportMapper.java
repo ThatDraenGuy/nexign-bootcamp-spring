@@ -1,5 +1,6 @@
 package com.draen.data.report.mapper;
 
+import com.draen.annotation.MapperService;
 import com.draen.data.cdr.dto.CdrDto;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.domain.entity.Cdr;
@@ -8,7 +9,7 @@ import com.draen.exception.UnimplementedException;
 import com.draen.mapper.Mapper;
 import org.springframework.stereotype.Component;
 
-@Component
+@MapperService
 public class ReportMapper implements Mapper<Report, ReportDto> {
     private final Mapper<Cdr, CdrDto> cdrMapper;
 

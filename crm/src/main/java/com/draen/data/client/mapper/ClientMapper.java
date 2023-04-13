@@ -1,13 +1,12 @@
 package com.draen.data.client.mapper;
 
+import com.draen.annotation.MapperService;
 import com.draen.data.client.dto.ClientDto;
 import com.draen.domain.entity.Client;
-import com.draen.domain.entity.Tariff;
 import com.draen.exception.UnimplementedException;
 import com.draen.mapper.Mapper;
-import org.springframework.stereotype.Component;
 
-@Component
+@MapperService
 public class ClientMapper implements Mapper<Client, ClientDto> {
     @Override
     public Client toEntity(ClientDto dto) {

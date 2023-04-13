@@ -8,7 +8,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.draen.domain.repository"})
+@EnableJpaRepositories(basePackages = {"com.draen.data"})
 public class Config {
 //    @Bean
 //    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
