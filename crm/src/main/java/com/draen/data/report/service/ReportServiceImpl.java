@@ -2,8 +2,10 @@ package com.draen.data.report.service;
 
 import com.draen.domain.entity.Report;
 import com.draen.domain.repository.ReportRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
+@Service
 public class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
     private final TransactionTemplate transactionTemplate;

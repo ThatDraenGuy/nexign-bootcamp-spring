@@ -3,4 +3,5 @@ include 'common'
 include 'brt'
 include 'hrs'
 include 'crm'
+include 'server-config'
 

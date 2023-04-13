@@ -3,8 +3,10 @@ package com.draen.data.client.service;
 import com.draen.data.payment.dto.PaymentDto;
 import com.draen.domain.entity.Client;
 import com.draen.domain.repository.ClientRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
+@Service
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
     private final TransactionTemplate template;

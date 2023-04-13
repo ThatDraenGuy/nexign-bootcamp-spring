@@ -18,5 +18,7 @@ public class Client {
 
     private int money;
 
+    @ManyToOne
+    @JoinColumn(name = "TARIFF_ID")
     private Tariff tariff;
 }

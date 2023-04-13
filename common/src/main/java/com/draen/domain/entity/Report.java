@@ -16,12 +16,23 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "CLIENT_ID")
     private Client client;
 
     private double totalCost;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "report_cdrs",
+            joinColumns =
+                    @JoinColumn(name = "REPORT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns =
+                    @JoinColumn(name = "CDR_ID", referencedColumnName = "ID")
+    )
     private List<Cdr> records;
 
+    @ManyToOne
+    @JoinColumn(name = "MONETARY_UNIT_ID")
     private MonetaryUnit monetaryUnit;
 }

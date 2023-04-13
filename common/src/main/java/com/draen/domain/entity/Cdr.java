@@ -17,6 +17,8 @@ public class Cdr {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "CALL_TYPE_ID")
     private CallType callType;
 
     private LocalDateTime startTime;
