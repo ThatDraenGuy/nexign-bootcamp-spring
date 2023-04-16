@@ -21,16 +21,17 @@ public class Report {
     private Client client;
 
     private double totalCost;
+    private int totalMinutes;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "report_cdrs",
+            name = "report_call_summaries",
             joinColumns =
                     @JoinColumn(name = "REPORT_ID", referencedColumnName = "ID"),
             inverseJoinColumns =
                     @JoinColumn(name = "CDR_ID", referencedColumnName = "ID")
     )
-    private List<Cdr> records;
+    private List<CallSummary> records;
 
     @ManyToOne
     @JoinColumn(name = "MONETARY_UNIT_ID")

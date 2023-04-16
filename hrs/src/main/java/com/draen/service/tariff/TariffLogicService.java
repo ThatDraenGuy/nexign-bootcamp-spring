@@ -1,16 +1,43 @@
 package com.draen.service.tariff;
 
-import com.draen.domain.model.CallCost;
-import com.draen.domain.model.CdrPlus;
+import com.draen.data.callsummary.dto.CallSummaryDto;
+import com.draen.data.report.dto.ReportDto;
+import com.draen.domain.entity.CallSummary;
+import com.draen.domain.entity.MonetaryUnit;
+import com.draen.domain.entity.Report;
+import com.draen.domain.model.CdrPlusEntry;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public interface TariffLogicService {
-    CallCost tarifficate(CdrPlus cdrPlus);
+    void initializeReport(ReportDto report);
+    double getCost(int currentMinutes, int callMinutes);
+    MonetaryUnit getMonetaryUnit();
 
-    default long getMinutes(Duration duration) {
-        return duration.toMinutes() + 1;
+    default void tarifficate(ReportDto report, CdrPlusEntry cdrPlusEntry) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        int currentMinutes = report.getTotalMinutes();
+        int callMinutes = getMinutes(cdrPlusEntry.getDuration());
+
+        double cost = getCost(currentMinutes, callMinutes);
+
+        report.setTotalCost(report.getTotalCost() + cost);
+        report.setTotalMinutes(currentMinutes + callMinutes);
+        report.getRecords().add(new CallSummaryDto(
+                cdrPlusEntry.getCallType().getCode(),
+                formatter.format(cdrPlusEntry.getStartTime()),
+                formatter.format(cdrPlusEntry.getEndTime()),
+                cdrPlusEntry.getDuration().toString(),
+                cost,
+                getMonetaryUnit().getCode()
+        ));
+    }
+
+    default int getMinutes(Duration duration) {
+        return (int) (duration.toMinutes() + 1);
     }
 }

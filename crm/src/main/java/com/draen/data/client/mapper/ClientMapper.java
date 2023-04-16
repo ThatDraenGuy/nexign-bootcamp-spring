@@ -2,15 +2,26 @@ package com.draen.data.client.mapper;
 
 import com.draen.annotation.MapperService;
 import com.draen.data.client.dto.ClientDto;
+import com.draen.data.tariff.service.TariffService;
 import com.draen.domain.entity.Client;
-import com.draen.exception.UnimplementedException;
 import com.draen.mapper.Mapper;
 
 @MapperService
 public class ClientMapper implements Mapper<Client, ClientDto> {
+    private final TariffService tariffService;
+
+    public ClientMapper(TariffService tariffService) {
+        this.tariffService = tariffService;
+    }
+
     @Override
     public Client toEntity(ClientDto dto) {
-        throw new UnimplementedException();
+        return new Client(
+                null,
+                dto.getNumberPhone(),
+                dto.getMoney(),
+                tariffService.findByCode(dto.getTariff_id())
+        );
     }
 
     @Override
@@ -18,7 +29,7 @@ public class ClientMapper implements Mapper<Client, ClientDto> {
         return new ClientDto(
                 entity.getId(),
                 entity.getPhoneNumber(),
-                entity.getMoney(),
+                entity.getBalance(),
                 entity.getTariff().getCode()
         );
     }

@@ -15,4 +15,5 @@ public class PaymentDto {
     @NotNull
     @Range(min = 1)
     private int money;
+    private String monetaryUnit;
 }

@@ -1,9 +1,9 @@
 package com.draen.data.client.dto;
 
-//import com.draen.annotation.validationgroups.Create;
-//import com.draen.annotation.validationgroups.Update;
-//import jakarta.validation.constraints.NotNull;
-//import jakarta.validation.constraints.Null;
+import com.draen.annotation.validationgroups.Create;
+import com.draen.annotation.validationgroups.Update;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +12,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ClientDto {
-//    @Null(groups = {Create.class, Update.class})
+    @Null(groups = {Create.class, Update.class})
     private Long id;
-//    @NotNull
+    @NotNull
     private String numberPhone;
     private int money;
-    private String tariffCode;
+    private String tariff_id;
 }

@@ -7,6 +7,7 @@ import com.draen.data.report.dto.ReportDto;
 import com.draen.data.report.service.ReportService;
 import com.draen.domain.entity.Client;
 import com.draen.domain.entity.Report;
+import com.draen.domain.model.Payment;
 import com.draen.mapper.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,18 +19,21 @@ public class AbonentController {
     private final ReportService reportService;
     private final Mapper<Client, ClientDto> clientMapper;
     private final Mapper<Report, ReportDto> reportMapper;
+    private final Mapper<Payment, PaymentDto> paymentMapper;
 
     public AbonentController(ClientService clientService, ReportService reportService,
-                             Mapper<Client, ClientDto> clientMapper, Mapper<Report, ReportDto> reportMapper) {
+                             Mapper<Client, ClientDto> clientMapper, Mapper<Report, ReportDto> reportMapper,
+                             Mapper<Payment, PaymentDto> paymentMapper) {
         this.clientService = clientService;
         this.reportService = reportService;
         this.clientMapper = clientMapper;
         this.reportMapper = reportMapper;
+        this.paymentMapper = paymentMapper;
     }
 
     @PatchMapping("/pay")
     public ResponseEntity<ClientDto> pay(@RequestBody @Validated PaymentDto paymentDto) {
-        return ResponseEntity.ok(clientMapper.toDto(clientService.update(paymentDto)));
+        return ResponseEntity.ok(clientMapper.toDto(clientService.update(paymentMapper.toEntity(paymentDto))));
     }
 
     @GetMapping("/report/{numberPhone}")

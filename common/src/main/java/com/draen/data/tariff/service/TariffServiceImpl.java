@@ -19,7 +19,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public Tariff findByCode(String code) {
         return transactionTemplate.execute(status -> {
-            return repository.findByCode(code).orElseThrow();
+            return repository.findByCodeEquals(code).orElseThrow();
         });
     }
 
