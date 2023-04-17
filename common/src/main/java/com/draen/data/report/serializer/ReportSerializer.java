@@ -26,6 +26,10 @@ public class ReportSerializer implements Serializer<ReportDto> {
                 item.getMonetaryUnitCode() + ", " +
                 item.getRecords().size() + "\n";
         writer.write(str);
+        for (CallSummaryDto callSummary : item.getRecords()) {
+            callSummarySerializer.serialize(callSummary, writer);
+            writer.write('\n');
+        }
     }
 
     @Override

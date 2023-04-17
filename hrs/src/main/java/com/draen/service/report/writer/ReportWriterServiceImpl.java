@@ -29,6 +29,7 @@ public class ReportWriterServiceImpl implements ReportWriterService {
     public void writeReport(ReportDto report) {
         try {
             reportSerializer.serialize(report, writer);
+            writer.flush();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
