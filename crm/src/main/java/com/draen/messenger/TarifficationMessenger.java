@@ -21,7 +21,7 @@ public class TarifficationMessenger {
     }
 
 
-    public ServiceResponse<Void> requestTariffication() {
+    public ServiceResponse requestTariffication() {
         return jmsMessagingTemplate.convertSendAndReceive(destination, new ServiceRequest(destination),
                 ServiceResponse.class);
     }

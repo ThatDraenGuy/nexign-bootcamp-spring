@@ -4,7 +4,7 @@ import com.draen.annotation.MapperService;
 import com.draen.data.monetaryunit.service.MonetaryUnitService;
 import com.draen.data.payment.dto.PaymentDto;
 import com.draen.domain.model.Payment;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 
 @MapperService
 public class PaymentMapper implements Mapper<Payment, PaymentDto> {

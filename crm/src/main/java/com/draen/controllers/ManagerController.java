@@ -7,7 +7,7 @@ import com.draen.data.client.service.ClientService;
 import com.draen.domain.entity.Client;
 import com.draen.message.ResponseStatus;
 import com.draen.message.ServiceResponse;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 import com.draen.messenger.TarifficationMessenger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ public class ManagerController {
 
     @PatchMapping("/billing")
     public ResponseEntity<List<ClientDto>> tarifficate() {
-        ServiceResponse<Void> response = tarifficationMessenger.requestTariffication();
+        ServiceResponse response = tarifficationMessenger.requestTariffication();
         if (response.getStatus().equals(ResponseStatus.SUCCESS)) {
             return ResponseEntity.ok(List.of(new ClientDto(-1L, "temp", -1, "temp")));
         } else

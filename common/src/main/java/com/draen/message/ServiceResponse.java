@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceResponse<T> {
+public class ServiceResponse {
     private ResponseStatus status;
     private String message;
-    private T payload;
 }

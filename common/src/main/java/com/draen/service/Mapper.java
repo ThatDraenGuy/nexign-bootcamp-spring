@@ -1,4 +1,4 @@
-package com.draen.mapper;
+package com.draen.service;
 
 import java.util.Collection;
 import java.util.List;

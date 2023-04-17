@@ -8,7 +8,7 @@ import com.draen.data.report.service.ReportService;
 import com.draen.domain.entity.Client;
 import com.draen.domain.entity.Report;
 import com.draen.domain.model.Payment;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

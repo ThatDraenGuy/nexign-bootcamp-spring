@@ -7,7 +7,7 @@ import com.draen.data.monetaryunit.service.MonetaryUnitService;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.domain.entity.CallSummary;
 import com.draen.domain.entity.Report;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 
 @MapperService
 public class ReportMapper implements Mapper<Report, ReportDto> {

@@ -23,7 +23,7 @@ public class ReportGenerationMessenger {
     }
 
 
-    public ServiceResponse<List<ReportDto>> requestReportGeneration() {
+    public ServiceResponse requestReportGeneration() {
         return jmsMessagingTemplate.convertSendAndReceive(destination, new ServiceRequest(destination),
                 ServiceResponse.class);
     }

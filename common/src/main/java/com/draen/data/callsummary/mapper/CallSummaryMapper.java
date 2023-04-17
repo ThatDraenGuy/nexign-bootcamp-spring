@@ -5,7 +5,7 @@ import com.draen.data.callsummary.dto.CallSummaryDto;
 import com.draen.data.calltype.service.CallTypeService;
 import com.draen.data.monetaryunit.service.MonetaryUnitService;
 import com.draen.domain.entity.CallSummary;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

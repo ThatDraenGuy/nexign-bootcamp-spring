@@ -4,7 +4,7 @@ import com.draen.annotation.MapperService;
 import com.draen.data.client.dto.ClientDto;
 import com.draen.data.tariff.service.TariffService;
 import com.draen.domain.entity.Client;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 
 @MapperService
 public class ClientMapper implements Mapper<Client, ClientDto> {

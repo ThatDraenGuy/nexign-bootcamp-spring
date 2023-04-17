@@ -5,7 +5,7 @@ import com.draen.data.calltype.service.CallTypeService;
 import com.draen.data.cdrplus.dto.CdrPlusEntryDto;
 import com.draen.data.tariff.service.TariffService;
 import com.draen.domain.model.CdrPlusEntry;
-import com.draen.mapper.Mapper;
+import com.draen.service.Mapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
