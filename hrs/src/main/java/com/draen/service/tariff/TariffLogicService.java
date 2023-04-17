@@ -2,9 +2,7 @@ package com.draen.service.tariff;
 
 import com.draen.data.callsummary.dto.CallSummaryDto;
 import com.draen.data.report.dto.ReportDto;
-import com.draen.domain.entity.CallSummary;
 import com.draen.domain.entity.MonetaryUnit;
-import com.draen.domain.entity.Report;
 import com.draen.domain.model.CdrPlusEntry;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +26,9 @@ public interface TariffLogicService {
         report.setTotalCost(report.getTotalCost() + cost);
         report.setTotalMinutes(currentMinutes + callMinutes);
         report.getRecords().add(new CallSummaryDto(
-                cdrPlusEntry.getCallType().getCode(),
-                formatter.format(cdrPlusEntry.getStartTime()),
-                formatter.format(cdrPlusEntry.getEndTime()),
+                cdrPlusEntry.getCallTypeCode(),
+                cdrPlusEntry.getStartTime(),
+                cdrPlusEntry.getEndTime(),
                 cdrPlusEntry.getDuration().toString(),
                 cost,
                 getMonetaryUnit().getCode()

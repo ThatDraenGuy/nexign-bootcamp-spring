@@ -1,7 +1,7 @@
 package com.draen.service.report.provider;
 
 import com.draen.data.report.dto.ReportDto;
-import com.draen.service.Serializer;
+import com.draen.service.Deserializer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -21,10 +21,10 @@ public class ReportProviderServiceImpl implements ReportProviderService {
     private String sourceURL;
     private BufferedReader reader;
 
-    private final Serializer<ReportDto> reportSerializer;
+    private final Deserializer<ReportDto> reportDeserializer;
 
-    public ReportProviderServiceImpl(Serializer<ReportDto> reportSerializer) {
-        this.reportSerializer = reportSerializer;
+    public ReportProviderServiceImpl(Deserializer<ReportDto> reportDeserializer) {
+        this.reportDeserializer = reportDeserializer;
     }
 
     @PostConstruct
@@ -42,7 +42,7 @@ public class ReportProviderServiceImpl implements ReportProviderService {
         List<ReportDto> reports = new ArrayList<>();
         try {
             while (true) {
-                Optional<ReportDto> report = reportSerializer.deserialize(reader);
+                Optional<ReportDto> report = reportDeserializer.deserialize(reader);
                 if (report.isEmpty()) break;
                 reports.add(report.get());
             }

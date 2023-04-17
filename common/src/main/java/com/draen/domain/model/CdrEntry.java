@@ -11,12 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class CdrEntry {
-    private CallType callType;
-
+    private String callTypeCode;
     private String phoneNumber;
-
-    private LocalDateTime startTime;
-
-    private LocalDateTime endTime;
-
+    private String startTime;
+    private String endTime;
 }

@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -28,11 +29,11 @@ public class ReportGenerationListener {
     @SendTo("${custom.jms.destination.report-generation}")
     public ServiceResponse generateReports(@Payload ServiceRequest request) {
         try {
-            Stream<CdrPlusEntry> entries = cdrPlusProviderService.getCdrPlus();
+            List<CdrPlusEntry> entries = cdrPlusProviderService.getCdrPlus();
             reportGeneratorService.generateReports(entries);
             return new ServiceResponse(ResponseStatus.SUCCESS, "Successfully generated reports");
         } catch (Exception e) {
-            return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, e.getMessage());
+            return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, "hrs error: " + e.getMessage());
         }
     }
 }

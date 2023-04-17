@@ -1,7 +1,8 @@
 package com.draen.service.cdrplus.entryhandler;
 
+import com.draen.data.calltype.service.CallTypeService;
 import com.draen.data.report.dto.ReportDto;
-import com.draen.domain.entity.Report;
+import com.draen.data.tariff.service.TariffService;
 import com.draen.domain.entity.Tariff;
 import com.draen.domain.model.CdrPlusEntry;
 import com.draen.service.tariff.TariffLogicService;
@@ -14,13 +15,17 @@ import java.util.Map;
 @Service
 public class EntryHandlerServiceImpl implements EntryHandlerService {
     private final ApplicationContext applicationContext;
+    private final CallTypeService callTypeService;
+    private final TariffService tariffService;
 
-    public EntryHandlerServiceImpl(ApplicationContext applicationContext) {
+    public EntryHandlerServiceImpl(ApplicationContext applicationContext, CallTypeService callTypeService, TariffService tariffService) {
         this.applicationContext = applicationContext;
+        this.callTypeService = callTypeService;
+        this.tariffService = tariffService;
     }
 
     public void handleEntry(Map<String, ReportDto> reports, CdrPlusEntry cdrPlusEntry) {
-        Tariff tariff = cdrPlusEntry.getTariff();
+        Tariff tariff = tariffService.findByCode(cdrPlusEntry.getTariffCode());
         if (! applicationContext.containsBeanDefinition(tariff.getName())) {
             throw new RuntimeException(); //TODO
         }

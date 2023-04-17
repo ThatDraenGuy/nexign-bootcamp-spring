@@ -1,35 +1,22 @@
-package com.draen.data.report.serializer;
+package com.draen.service.report.deserializer;
 
 import com.draen.data.callsummary.dto.CallSummaryDto;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.exception.ParseException;
-import com.draen.service.Serializer;
+import com.draen.service.Deserializer;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class ReportSerializer implements Serializer<ReportDto> {
-    private final Serializer<CallSummaryDto> callSummarySerializer;
+public class ReportDeserializer implements Deserializer<ReportDto> {
+    private final Deserializer<CallSummaryDto> callSummaryDeserializer;
 
-    public ReportSerializer(Serializer<CallSummaryDto> callSummarySerializer) {
-        this.callSummarySerializer = callSummarySerializer;
-    }
-
-    @Override
-    public void serialize(ReportDto item, Writer writer) throws IOException {
-        String str = item.getPhoneNumber() + ", " +
-                item.getTotalCost() + ", " +
-                item.getTotalMinutes() + ", " +
-                item.getMonetaryUnitCode() + ", " +
-                item.getRecords().size() + "\n";
-        writer.write(str);
-        for (CallSummaryDto callSummary : item.getRecords()) {
-            callSummarySerializer.serialize(callSummary, writer);
-            writer.write('\n');
-        }
+    public ReportDeserializer(Deserializer<CallSummaryDto> callSummaryDeserializer) {
+        this.callSummaryDeserializer = callSummaryDeserializer;
     }
 
     @Override
@@ -47,7 +34,7 @@ public class ReportSerializer implements Serializer<ReportDto> {
                 split[3]
         );
         for (int i = 0; i < callSummariesNum; i++) {
-            Optional<CallSummaryDto> callSummary = callSummarySerializer.deserialize(reader);
+            Optional<CallSummaryDto> callSummary = callSummaryDeserializer.deserialize(reader);
             if (callSummary.isEmpty()) throw new ParseException("Report parse exception: wrong call summaries num");
             report.getRecords().add(callSummary.get());
         }

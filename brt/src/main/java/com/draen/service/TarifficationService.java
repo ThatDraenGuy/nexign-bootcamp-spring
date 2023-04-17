@@ -3,6 +3,8 @@ package com.draen.service;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.data.report.service.ReportService;
 import com.draen.domain.entity.Report;
+import com.draen.domain.model.CdrEntry;
+import com.draen.domain.model.CdrPlusEntry;
 import com.draen.message.ResponseStatus;
 import com.draen.message.ServiceResponse;
 import com.draen.messenger.ReportGenerationMessenger;
@@ -12,6 +14,7 @@ import com.draen.service.cdrplus.writer.CdrPlusWriterService;
 import com.draen.service.report.provider.ReportProviderService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,11 +41,11 @@ public class TarifficationService {
     }
 
     public ServiceResponse tarifficate() {
-        cdrProviderService.getEntries()
-                .map(cdrPlusCreatorService::createEntry)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .forEach(cdrPlusWriterService::writeEntry);
+        List<CdrEntry> cdrEntries = cdrProviderService.getEntries();
+        for (CdrEntry entry : cdrEntries) {
+            Optional<CdrPlusEntry> cdrPlusEntry = cdrPlusCreatorService.createEntry(entry);
+            cdrPlusEntry.ifPresent(cdrPlusWriterService::writeEntry);
+        }
         ServiceResponse response = reportGenerationMessenger.requestReportGeneration();
 
         if (response.getStatus().equals(ResponseStatus.SUCCESS)) {

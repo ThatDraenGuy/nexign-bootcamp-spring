@@ -1,7 +1,7 @@
 package com.draen.service.cdr.provider;
 
 import com.draen.domain.model.CdrEntry;
-import com.draen.service.cdr.parser.CdrParserService;
+import com.draen.service.Deserializer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -11,7 +11,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CdrProviderServiceImpl implements CdrProviderService {
@@ -19,13 +21,11 @@ public class CdrProviderServiceImpl implements CdrProviderService {
     private String sourceURL;
     private BufferedReader reader;
 
-    private final CdrParserService cdrParserService;
+    private final Deserializer<CdrEntry> cdrDeserializer;
 
-
-    public CdrProviderServiceImpl(CdrParserService cdrParserService) {
-        this.cdrParserService = cdrParserService;
+    public CdrProviderServiceImpl(Deserializer<CdrEntry> cdrDeserializer) {
+        this.cdrDeserializer = cdrDeserializer;
     }
-
 
     @PostConstruct
     public void init() {
@@ -39,8 +39,17 @@ public class CdrProviderServiceImpl implements CdrProviderService {
     }
 
     @Override
-    public Stream<CdrEntry> getEntries() {
-        init();
-        return reader.lines().map(cdrParserService::parse);
+    public List<CdrEntry> getEntries() {
+        List<CdrEntry> cdrEntries = new ArrayList<>();
+        try {
+            while (true) {
+                Optional<CdrEntry> cdrEntry = cdrDeserializer.deserialize(reader);
+                if (cdrEntry.isEmpty()) break;
+                cdrEntries.add(cdrEntry.get());
+            }
+            return cdrEntries;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

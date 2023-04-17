@@ -1,7 +1,7 @@
 package com.draen.service.cdrplus.provider;
 
 import com.draen.domain.model.CdrPlusEntry;
-import com.draen.service.cdrplus.parser.CdrPlusEntryParserService;
+import com.draen.service.Deserializer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.stream.Stream;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CdrPlusProviderServiceImpl implements CdrPlusProviderService {
@@ -18,10 +21,10 @@ public class CdrPlusProviderServiceImpl implements CdrPlusProviderService {
     private String sourceURL;
     private BufferedReader reader;
 
-    private final CdrPlusEntryParserService cdrPlusEntryParserService;
+    private final Deserializer<CdrPlusEntry> cdrPlusEntryDeserializer;
 
-    public CdrPlusProviderServiceImpl(CdrPlusEntryParserService cdrPlusEntryParserService) {
-        this.cdrPlusEntryParserService = cdrPlusEntryParserService;
+    public CdrPlusProviderServiceImpl(Deserializer<CdrPlusEntry> cdrPlusEntryDeserializer) {
+        this.cdrPlusEntryDeserializer = cdrPlusEntryDeserializer;
     }
 
     @PostConstruct
@@ -31,7 +34,17 @@ public class CdrPlusProviderServiceImpl implements CdrPlusProviderService {
     }
 
     @Override
-    public Stream<CdrPlusEntry> getCdrPlus() {
-        return reader.lines().map(cdrPlusEntryParserService::parse);
+    public List<CdrPlusEntry> getCdrPlus() {
+        List<CdrPlusEntry> entries = new ArrayList<>();
+        try {
+            while (true) {
+                Optional<CdrPlusEntry> entry = cdrPlusEntryDeserializer.deserialize(reader);
+                if (entry.isEmpty()) break;
+                entries.add(entry.get());
+            }
+            return entries;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

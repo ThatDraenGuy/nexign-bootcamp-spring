@@ -1,30 +1,18 @@
-package com.draen.data.callsummary.serializer;
+package com.draen.service.callsummary.deserializer;
 
 import com.draen.data.callsummary.dto.CallSummaryDto;
 import com.draen.exception.ParseException;
-import com.draen.service.Serializer;
+import com.draen.service.Deserializer;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Optional;
 
 @Service
-public class CallSummarySerializer implements Serializer<CallSummaryDto> {
+public class CallSummaryDeserializer implements Deserializer<CallSummaryDto> {
     @Override
-    public void serialize(CallSummaryDto item, Writer writer) throws IOException {
-        String str = item.getCallTypeCode() + ", " +
-                item.getStartTime() + ", " +
-                item.getEndTime() + ", " +
-                item.getDuration() + ", " +
-                item.getCost() + ", " +
-                item.getMonetaryUnitCode();
-        writer.write(str);
-    }
-
-    @Override
-    public Optional<CallSummaryDto> deserialize(BufferedReader reader) throws IOException{
+    public Optional<CallSummaryDto> deserialize(BufferedReader reader) throws IOException {
         String line = reader.readLine();
         if (line == null) return Optional.empty();
 

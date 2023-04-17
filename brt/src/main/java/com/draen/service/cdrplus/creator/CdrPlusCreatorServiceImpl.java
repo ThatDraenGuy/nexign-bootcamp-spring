@@ -7,11 +7,14 @@ import com.draen.domain.model.CdrPlusEntry;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class CdrPlusCreatorServiceImpl implements CdrPlusCreatorService {
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private final ClientService clientService;
 
     public CdrPlusCreatorServiceImpl(ClientService clientService) {
@@ -27,12 +30,16 @@ public class CdrPlusCreatorServiceImpl implements CdrPlusCreatorService {
         }
 
         return Optional.of(new CdrPlusEntry(
-                cdrEntry.getCallType(),
+                cdrEntry.getCallTypeCode(),
                 cdrEntry.getPhoneNumber(),
                 cdrEntry.getStartTime(),
                 cdrEntry.getEndTime(),
-                Duration.between(cdrEntry.getStartTime(), cdrEntry.getEndTime()),
-                client.getTariff()
+                getDuration(cdrEntry.getStartTime(), cdrEntry.getEndTime()),
+                client.getTariff().getCode()
         ));
+    }
+
+    private Duration getDuration(String startTime, String endTime) {
+        return Duration.between(LocalDateTime.parse(startTime, formatter), LocalDateTime.parse(endTime, formatter));
     }
 }

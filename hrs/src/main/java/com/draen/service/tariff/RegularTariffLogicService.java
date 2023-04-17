@@ -3,7 +3,6 @@ package com.draen.service.tariff;
 import com.draen.data.monetaryunit.service.MonetaryUnitService;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.domain.entity.MonetaryUnit;
-import com.draen.domain.entity.Report;
 import com.draen.domain.model.CdrPlusEntry;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -43,7 +42,7 @@ public class RegularTariffLogicService implements TariffLogicService {
 
     @Override
     public void tarifficate(ReportDto report, CdrPlusEntry cdrPlusEntry) {
-        if (cdrPlusEntry.getCallType().getCode().equals(incomingCallTypeCode)) return;
+        if (cdrPlusEntry.getCallTypeCode().equals(incomingCallTypeCode)) return;
         TariffLogicService.super.tarifficate(report, cdrPlusEntry);
     }
 

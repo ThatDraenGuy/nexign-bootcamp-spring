@@ -29,7 +29,7 @@ public class TarifficationListener {
                 return new ServiceResponse(response.getStatus(), response.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, e.getMessage());
+            return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, "brt error: " + e.getMessage());
         }
     }
 }

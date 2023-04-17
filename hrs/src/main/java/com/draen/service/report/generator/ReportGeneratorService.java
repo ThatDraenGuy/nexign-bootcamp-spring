@@ -10,5 +10,5 @@ import java.util.stream.Stream;
 
 @Service
 public interface ReportGeneratorService {
-    void generateReports(Stream<CdrPlusEntry> entries);
+    void generateReports(List<CdrPlusEntry> entries);
 }

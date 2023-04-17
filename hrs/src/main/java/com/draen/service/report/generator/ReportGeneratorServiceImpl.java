@@ -7,6 +7,7 @@ import com.draen.service.report.writer.ReportWriterService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -21,7 +22,7 @@ public class ReportGeneratorServiceImpl implements ReportGeneratorService {
     }
 
     @Override
-    public void generateReports(Stream<CdrPlusEntry> entries) {
+    public void generateReports(List<CdrPlusEntry> entries) {
         Map<String, ReportDto> reports = new HashMap<>();
         entries.forEach(entry -> entryHandlerService.handleEntry(reports, entry));
         for (ReportDto report : reports.values()) {
