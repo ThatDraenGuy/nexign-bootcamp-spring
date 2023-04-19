@@ -9,5 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClientShortDto {
     private String phoneNumber;
-    private int balance;
+    private double balance;
 }

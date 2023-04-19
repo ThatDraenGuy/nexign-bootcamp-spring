@@ -17,7 +17,7 @@ public class ClientDto {
     @NotNull
     private String numberPhone;
     @Null(groups = {Update.class})
-    private int balance;
+    private double balance;
     @NotNull(groups = {Create.class, Update.class})
     private String tariffCode;
 }

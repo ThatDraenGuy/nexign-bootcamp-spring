@@ -4,6 +4,7 @@ import com.draen.data.client.service.ClientService;
 import com.draen.domain.entity.Client;
 import com.draen.domain.model.CdrEntry;
 import com.draen.domain.model.CdrPlusEntry;
+import com.draen.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -25,7 +26,7 @@ public class CdrPlusCreatorServiceImpl implements CdrPlusCreatorService {
         Client client;
         try {
             client = clientService.findActiveByNumber(cdrEntry.getPhoneNumber());
-        } catch (NoSuchElementException e) {
+        } catch (NotFoundException e) {
             return Optional.empty();
         }
 

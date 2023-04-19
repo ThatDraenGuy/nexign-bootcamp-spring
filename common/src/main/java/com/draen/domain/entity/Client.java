@@ -16,7 +16,7 @@ public class Client {
 
     private String phoneNumber;
 
-    private int balance;
+    private double balance;
 
     @ManyToOne
     @JoinColumn(name = "TARIFF_ID")
