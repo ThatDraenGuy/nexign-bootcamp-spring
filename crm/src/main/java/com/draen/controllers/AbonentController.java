@@ -1,13 +1,15 @@
 package com.draen.controllers;
 
+import com.draen.annotation.validationgroups.Create;
 import com.draen.data.client.dto.ClientDto;
 import com.draen.data.client.service.ClientService;
 import com.draen.data.payment.dto.PaymentDto;
+import com.draen.data.payment.service.PaymentService;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.data.report.service.ReportService;
 import com.draen.domain.entity.Client;
 import com.draen.domain.entity.Report;
-import com.draen.domain.model.Payment;
+import com.draen.domain.entity.Payment;
 import com.draen.service.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,25 +17,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("/abonent")
 public class AbonentController {
-    private final ClientService clientService;
     private final ReportService reportService;
-    private final Mapper<Client, ClientDto> clientMapper;
+    private final PaymentService paymentService;
     private final Mapper<Report, ReportDto> reportMapper;
     private final Mapper<Payment, PaymentDto> paymentMapper;
 
-    public AbonentController(ClientService clientService, ReportService reportService,
-                             Mapper<Client, ClientDto> clientMapper, Mapper<Report, ReportDto> reportMapper,
-                             Mapper<Payment, PaymentDto> paymentMapper) {
-        this.clientService = clientService;
+    public AbonentController(ReportService reportService, PaymentService paymentService,
+                             Mapper<Report, ReportDto> reportMapper, Mapper<Payment, PaymentDto> paymentMapper) {
         this.reportService = reportService;
-        this.clientMapper = clientMapper;
+        this.paymentService = paymentService;
         this.reportMapper = reportMapper;
         this.paymentMapper = paymentMapper;
     }
 
     @PatchMapping("/pay")
-    public ResponseEntity<ClientDto> pay(@RequestBody @Validated PaymentDto paymentDto) {
-        return ResponseEntity.ok(clientMapper.toDto(clientService.update(paymentMapper.toEntity(paymentDto))));
+    public ResponseEntity<PaymentDto> pay(@RequestBody @Validated({Create.class}) PaymentDto paymentDto) {
+        return ResponseEntity.ok(paymentMapper.toDto(paymentService.create(paymentMapper.toEntity(paymentDto))));
     }
 
     @GetMapping("/report/{numberPhone}")

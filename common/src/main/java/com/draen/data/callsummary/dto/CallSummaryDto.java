@@ -1,5 +1,7 @@
 package com.draen.data.callsummary.dto;
 
+import com.draen.annotation.validationgroups.Create;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CallSummaryDto {
+    @Null(groups = {Create.class})
+    private Long id;
     private String callTypeCode;
     private String startTime;
     private String endTime;

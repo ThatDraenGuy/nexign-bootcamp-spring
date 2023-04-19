@@ -4,6 +4,7 @@ import com.draen.data.callsummary.repository.CallSummaryRepository;
 import com.draen.data.client.repository.ClientRepository;
 import com.draen.data.report.repository.ReportRepository;
 import com.draen.domain.entity.Report;
+import com.draen.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -38,7 +39,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Report find(String phoneNumber) {
         return transactionTemplate.execute(status -> {
-            return reportRepository.findByClient_PhoneNumber(phoneNumber).orElseThrow();
+            return reportRepository.findByClient_PhoneNumber(phoneNumber).orElseThrow(() ->
+                    new NotFoundException("No such report"));
         });
     }
 }

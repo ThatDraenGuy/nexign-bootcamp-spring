@@ -26,7 +26,7 @@ public class CallSummaryMapper implements Mapper<CallSummary, CallSummaryDto> {
     @Override
     public CallSummary toEntity(CallSummaryDto dto) {
         return new CallSummary(
-                null,
+                dto.getId(),
                 callTypeService.findByCode(dto.getCallTypeCode()),
                 LocalDateTime.parse(dto.getStartTime(), formatter),
                 LocalDateTime.parse(dto.getEndTime(), formatter),
@@ -39,6 +39,7 @@ public class CallSummaryMapper implements Mapper<CallSummary, CallSummaryDto> {
     @Override
     public CallSummaryDto toDto(CallSummary entity) {
         return new CallSummaryDto(
+                entity.getId(),
                 entity.getCallType().getCode(),
                 formatter.format(entity.getStartTime()),
                 formatter.format(entity.getEndTime()),

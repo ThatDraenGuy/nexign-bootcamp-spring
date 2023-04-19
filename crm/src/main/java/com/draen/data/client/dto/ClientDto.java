@@ -16,6 +16,8 @@ public class ClientDto {
     private Long id;
     @NotNull
     private String numberPhone;
-    private int money;
-    private String tariff_id;
+    @Null(groups = {Update.class})
+    private int balance;
+    @NotNull(groups = {Create.class, Update.class})
+    private String tariffCode;
 }

@@ -35,10 +35,12 @@ public class EntryHandlerServiceImpl implements EntryHandlerService {
         String phoneNumber = cdrPlusEntry.getPhoneNumber();
         if (! reports.containsKey(phoneNumber)) {
             report = new ReportDto(
+                    null,
                     phoneNumber,
-                    0,
-                    0,
+                    tariff.getCode(),
                     new ArrayList<>(),
+                    0,
+                    0,
                     null
             );
             tariffLogicService.initializeReport(report);

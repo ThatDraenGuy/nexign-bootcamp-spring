@@ -24,19 +24,21 @@ public class ReportDeserializer implements Deserializer<ReportDto> {
         String line = reader.readLine();
         if (line == null) return Optional.empty();
         String[] split = line.split(", ");
-        if (split.length != 5) throw new ParseException("Report parse exception: " + line);
-        int callSummariesNum = Integer.parseInt(split[4]);
+        if (split.length != 6) throw new ParseException("Report parse exception: " + line);
+        int callSummariesNum = Integer.parseInt(split[5]);
         ReportDto report = new ReportDto(
+                null,
                 split[0],
-                Double.parseDouble(split[1]),
-                Integer.parseInt(split[2]),
+                split[1],
                 new ArrayList<>(callSummariesNum),
-                split[3]
+                Integer.parseInt(split[2]),
+                Double.parseDouble(split[3]),
+                split[4]
         );
         for (int i = 0; i < callSummariesNum; i++) {
             Optional<CallSummaryDto> callSummary = callSummaryDeserializer.deserialize(reader);
             if (callSummary.isEmpty()) throw new ParseException("Report parse exception: wrong call summaries num");
-            report.getRecords().add(callSummary.get());
+            report.getPayload().add(callSummary.get());
         }
         return Optional.of(report);
     }

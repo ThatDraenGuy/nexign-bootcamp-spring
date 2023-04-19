@@ -25,7 +25,8 @@ public interface TariffLogicService {
 
         report.setTotalCost(report.getTotalCost() + cost);
         report.setTotalMinutes(currentMinutes + callMinutes);
-        report.getRecords().add(new CallSummaryDto(
+        report.getPayload().add(new CallSummaryDto(
+                null,
                 cdrPlusEntry.getCallTypeCode(),
                 cdrPlusEntry.getStartTime(),
                 cdrPlusEntry.getEndTime(),

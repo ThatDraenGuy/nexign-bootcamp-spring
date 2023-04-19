@@ -3,6 +3,7 @@ package com.draen.controllers;
 import com.draen.annotation.validationgroups.Create;
 import com.draen.annotation.validationgroups.Update;
 import com.draen.data.client.dto.ClientDto;
+import com.draen.data.client.dto.ClientShortDto;
 import com.draen.data.client.service.ClientService;
 import com.draen.domain.entity.Client;
 import com.draen.message.ResponseStatus;
@@ -24,19 +25,21 @@ import java.util.List;
 public class ManagerController {
     private final ClientService clientService;
     private final Mapper<Client, ClientDto> clientMapper;
+    private final Mapper<Client, ClientShortDto> clientShortMapper;
     private final TarifficationMessenger tarifficationMessenger;
 
     public ManagerController(ClientService clientService, Mapper<Client, ClientDto> clientMapper,
+                             Mapper<Client, ClientShortDto> clientShortMapper,
                              TarifficationMessenger tarifficationMessenger) {
         this.clientService = clientService;
         this.clientMapper = clientMapper;
+        this.clientShortMapper = clientShortMapper;
         this.tarifficationMessenger = tarifficationMessenger;
     }
 
     @PatchMapping("/changeTariff")
     public ResponseEntity<ClientDto> changeTariff(@RequestBody @Validated({Update.class}) ClientDto clientDto) {
-        //TODO
-        return null;
+        return ResponseEntity.ok(clientMapper.toDto(clientService.update(clientMapper.toEntity(clientDto))));
     }
 
     @PostMapping("/abonent")
@@ -45,10 +48,10 @@ public class ManagerController {
     }
 
     @PatchMapping("/billing")
-    public ResponseEntity<List<ClientDto>> tarifficate() {
+    public ResponseEntity<List<ClientShortDto>> tarifficate() {
         ServiceResponse response = tarifficationMessenger.requestTariffication();
         if (response.getStatus().equals(ResponseStatus.SUCCESS)) {
-            return ResponseEntity.ok(List.of(new ClientDto(-1L, "temp", -1, "temp")));
+            return ResponseEntity.ok(clientShortMapper.toDtos(clientService.findAll()));
         } else
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, response.getMessage());
     }

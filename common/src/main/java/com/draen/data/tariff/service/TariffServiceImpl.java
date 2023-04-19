@@ -2,6 +2,7 @@ package com.draen.data.tariff.service;
 
 import com.draen.data.tariff.repostiory.TariffRepository;
 import com.draen.domain.entity.Tariff;
+import com.draen.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -19,7 +20,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public Tariff findByCode(String code) {
         return transactionTemplate.execute(status -> {
-            return repository.findByCodeEquals(code).orElseThrow();
+            return repository.findByCodeEquals(code).orElseThrow(() -> new NotFoundException("No such tariff"));
         });
     }
 

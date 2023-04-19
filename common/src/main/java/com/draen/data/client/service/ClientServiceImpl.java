@@ -2,9 +2,13 @@ package com.draen.data.client.service;
 
 import com.draen.data.client.repository.ClientRepository;
 import com.draen.domain.entity.Client;
-import com.draen.domain.model.Payment;
+import com.draen.domain.entity.Payment;
+import com.draen.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -24,21 +28,38 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client update(Payment paymentDto) {
+    public Client update(Client client) {
         return transactionTemplate.execute(status -> {
-            Client client = repository.findByPhoneNumber(paymentDto.getNumberPhone())
-                    .orElseThrow();
-            int newMoney = client.getBalance() + paymentDto.getMoney();
-            client.setBalance(newMoney);
-            return repository.save(client);
+            Client entity = repository.findByPhoneNumber(client.getPhoneNumber()).orElseThrow(() ->
+                    new NotFoundException("No such client"));
+            entity.setTariff(client.getTariff());
+            return entity;
         });
+    }
 
+    @Override
+    public Client findByNumber(String phoneNumber) {
+        return transactionTemplate.execute(status -> {
+            return repository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new NotFoundException("No such client"));
+        });
     }
 
     @Override
     public Client findActiveByNumber(String phoneNumber) {
         return transactionTemplate.execute(status -> {
-            return repository.findByPhoneNumberEqualsAndBalanceGreaterThan(phoneNumber, 0).orElseThrow();
+            return repository.findByPhoneNumberEqualsAndBalanceGreaterThan(phoneNumber, 0).orElseThrow(
+                    () -> new NotFoundException("No such client")
+            );
+        });
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return transactionTemplate.execute(status -> {
+            Iterable<Client> entities = repository.findAll();
+            List<Client> list = new ArrayList<>();
+            entities.forEach(list::add);
+            return list;
         });
     }
 }

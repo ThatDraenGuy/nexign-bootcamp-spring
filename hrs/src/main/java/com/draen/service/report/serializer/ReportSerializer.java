@@ -19,12 +19,13 @@ public class ReportSerializer implements Serializer<ReportDto> {
     @Override
     public void serialize(ReportDto item, Writer writer) throws IOException {
         String str = item.getPhoneNumber() + ", " +
-                item.getTotalCost() + ", " +
+                item.getTariffCode() + ", " +
                 item.getTotalMinutes() + ", " +
+                item.getTotalCost() + ", " +
                 item.getMonetaryUnitCode() + ", " +
-                item.getRecords().size() + "\n";
+                item.getPayload().size() + "\n";
         writer.write(str);
-        for (CallSummaryDto callSummary : item.getRecords()) {
+        for (CallSummaryDto callSummary : item.getPayload()) {
             callSummarySerializer.serialize(callSummary, writer);
             writer.write('\n');
         }

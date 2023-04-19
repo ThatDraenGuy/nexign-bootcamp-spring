@@ -19,8 +19,8 @@ public class ClientMapper implements Mapper<Client, ClientDto> {
         return new Client(
                 null,
                 dto.getNumberPhone(),
-                dto.getMoney(),
-                tariffService.findByCode(dto.getTariff_id())
+                dto.getBalance(),
+                tariffService.findByCode(dto.getTariffCode())
         );
     }
 

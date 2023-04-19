@@ -25,11 +25,11 @@ public class ReportMapper implements Mapper<Report, ReportDto> {
     @Override
     public Report toEntity(ReportDto dto) {
         return new Report(
-                null,
+                dto.getId(),
                 clientService.findActiveByNumber(dto.getPhoneNumber()),
                 dto.getTotalCost(),
                 dto.getTotalMinutes(),
-                callSummaryMapper.toEntities(dto.getRecords()),
+                callSummaryMapper.toEntities(dto.getPayload()),
                 monetaryUnitService.findByCode(dto.getMonetaryUnitCode())
         );
     }
@@ -37,10 +37,12 @@ public class ReportMapper implements Mapper<Report, ReportDto> {
     @Override
     public ReportDto toDto(Report entity) {
         return new ReportDto(
+                entity.getId(),
                 entity.getClient().getPhoneNumber(),
-                entity.getTotalCost(),
-                entity.getTotalMinutes(),
+                entity.getClient().getTariff().getCode(),
                 callSummaryMapper.toDtos(entity.getRecords()),
+                entity.getTotalMinutes(),
+                entity.getTotalCost(),
                 entity.getMonetaryUnit().getCode()
         );
     }
