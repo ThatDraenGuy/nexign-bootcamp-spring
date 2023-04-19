@@ -8,6 +8,6 @@ import java.util.Optional;
 
 
 @Service
-public interface CdrPlusCreatorService {
+public interface CdrPlusCreator {
     Optional<CdrPlusEntry> createEntry(CdrEntry cdrEntry);
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface CdrProviderService {
+public interface CdrProvider {
     List<CdrEntry> getEntries();
 }

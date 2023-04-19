@@ -4,20 +4,19 @@ import com.draen.domain.model.CdrPlusEntry;
 import com.draen.service.cdrplus.serializer.CdrPlusSerializer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 
 @Service
-public class CdrPlusWriterServiceImpl implements CdrPlusWriterService {
+public class CdrPlusWriterImpl implements CdrPlusWriter {
     @Value("${custom.files.cdr-plus-url}")
     private String cdrPlusUrl;
     private BufferedWriter writer;
 
     private final CdrPlusSerializer serializer;
 
-    public CdrPlusWriterServiceImpl(CdrPlusSerializer serializer) {
+    public CdrPlusWriterImpl(CdrPlusSerializer serializer) {
         this.serializer = serializer;
     }
 

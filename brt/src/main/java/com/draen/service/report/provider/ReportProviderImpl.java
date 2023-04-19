@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReportProviderServiceImpl implements ReportProviderService {
+public class ReportProviderImpl implements ReportProvider {
     @Value("${custom.files.reports-url}")
     private String sourceURL;
     private BufferedReader reader;
 
     private final Deserializer<ReportDto> reportDeserializer;
 
-    public ReportProviderServiceImpl(Deserializer<ReportDto> reportDeserializer) {
+    public ReportProviderImpl(Deserializer<ReportDto> reportDeserializer) {
         this.reportDeserializer = reportDeserializer;
     }
 

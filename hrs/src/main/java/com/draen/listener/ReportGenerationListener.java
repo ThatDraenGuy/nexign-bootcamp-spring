@@ -4,24 +4,23 @@ import com.draen.domain.model.CdrPlusEntry;
 import com.draen.message.ResponseStatus;
 import com.draen.message.ServiceRequest;
 import com.draen.message.ServiceResponse;
-import com.draen.service.report.generator.ReportGeneratorService;
-import com.draen.service.cdrplus.provider.CdrPlusProviderService;
+import com.draen.service.report.generator.ReportGenerator;
+import com.draen.service.cdrplus.provider.CdrPlusProvider;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class ReportGenerationListener {
-    private final ReportGeneratorService reportGeneratorService;
-    private final CdrPlusProviderService cdrPlusProviderService;
+    private final ReportGenerator reportGenerator;
+    private final CdrPlusProvider cdrPlusProvider;
 
-    public ReportGenerationListener(ReportGeneratorService reportGeneratorService, CdrPlusProviderService cdrPlusProviderService) {
-        this.reportGeneratorService = reportGeneratorService;
-        this.cdrPlusProviderService = cdrPlusProviderService;
+    public ReportGenerationListener(ReportGenerator reportGenerator, CdrPlusProvider cdrPlusProvider) {
+        this.reportGenerator = reportGenerator;
+        this.cdrPlusProvider = cdrPlusProvider;
     }
 
 
@@ -29,8 +28,8 @@ public class ReportGenerationListener {
     @SendTo("${custom.jms.destination.report-generation}")
     public ServiceResponse generateReports(@Payload ServiceRequest request) {
         try {
-            List<CdrPlusEntry> entries = cdrPlusProviderService.getCdrPlus();
-            reportGeneratorService.generateReports(entries);
+            List<CdrPlusEntry> entries = cdrPlusProvider.getCdrPlus();
+            reportGenerator.generateReports(entries);
             return new ServiceResponse(ResponseStatus.SUCCESS, "Successfully generated reports");
         } catch (Exception e) {
             return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, "hrs error: " + e.getMessage());

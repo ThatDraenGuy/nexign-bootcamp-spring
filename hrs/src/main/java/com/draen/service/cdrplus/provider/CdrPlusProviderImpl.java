@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CdrPlusProviderServiceImpl implements CdrPlusProviderService {
+public class CdrPlusProviderImpl implements CdrPlusProvider {
     @Value("${custom.files.cdr-plus-url}")
     private String sourceURL;
     private BufferedReader reader;
 
     private final Deserializer<CdrPlusEntry> cdrPlusEntryDeserializer;
 
-    public CdrPlusProviderServiceImpl(Deserializer<CdrPlusEntry> cdrPlusEntryDeserializer) {
+    public CdrPlusProviderImpl(Deserializer<CdrPlusEntry> cdrPlusEntryDeserializer) {
         this.cdrPlusEntryDeserializer = cdrPlusEntryDeserializer;
     }
 

@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @Service
-public class EntryHandlerServiceImpl implements EntryHandlerService {
+public class EntryHandlerImpl implements EntryHandler {
     private final ApplicationContext applicationContext;
     private final CallTypeService callTypeService;
     private final TariffService tariffService;
 
-    public EntryHandlerServiceImpl(ApplicationContext applicationContext, CallTypeService callTypeService, TariffService tariffService) {
+    public EntryHandlerImpl(ApplicationContext applicationContext, CallTypeService callTypeService, TariffService tariffService) {
         this.applicationContext = applicationContext;
         this.callTypeService = callTypeService;
         this.tariffService = tariffService;

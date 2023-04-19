@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 
 @Service
-public class ReportWriterServiceImpl implements ReportWriterService {
+public class ReportWriterImpl implements ReportWriter {
     @Value("${custom.files.reports-url}")
     private String reportsUrl;
     private BufferedWriter writer;
 
     private final Serializer<ReportDto> reportSerializer;
 
-    public ReportWriterServiceImpl(Serializer<ReportDto> reportSerializer) {
+    public ReportWriterImpl(Serializer<ReportDto> reportSerializer) {
         this.reportSerializer = reportSerializer;
     }
 

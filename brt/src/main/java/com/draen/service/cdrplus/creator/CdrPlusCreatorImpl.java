@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class CdrPlusCreatorServiceImpl implements CdrPlusCreatorService {
+public class CdrPlusCreatorImpl implements CdrPlusCreator {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private final ClientService clientService;
 
-    public CdrPlusCreatorServiceImpl(ClientService clientService) {
+    public CdrPlusCreatorImpl(ClientService clientService) {
         this.clientService = clientService;
     }
 
