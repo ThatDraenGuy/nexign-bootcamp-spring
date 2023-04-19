@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface TariffService {
     Tariff findByCode(String code);
     Iterable<Tariff> findAll();
+    Tariff findRandom();
 }

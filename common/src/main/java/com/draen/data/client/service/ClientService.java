@@ -12,4 +12,5 @@ public interface ClientService {
     Client findByNumber(String phoneNumber);
     Client findActiveByNumber(String phoneNumber);
     List<Client> findAll();
+    Client findRandom();
 }

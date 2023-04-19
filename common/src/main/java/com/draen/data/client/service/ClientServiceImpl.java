@@ -4,6 +4,8 @@ import com.draen.data.client.repository.ClientRepository;
 import com.draen.domain.entity.Client;
 import com.draen.domain.entity.Payment;
 import com.draen.exception.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -60,6 +62,17 @@ public class ClientServiceImpl implements ClientService {
             List<Client> list = new ArrayList<>();
             entities.forEach(list::add);
             return list;
+        });
+    }
+
+    @Override
+    public Client findRandom() {
+        return transactionTemplate.execute(status -> {
+            long clientNum = repository.count();
+            int pageNumber = (int)(Math.random() * clientNum);
+            Page<Client> page = repository.findAll(PageRequest.of(pageNumber, 1));
+            if (! page.hasContent()) return null;
+            return page.getContent().get(0);
         });
     }
 }

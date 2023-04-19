@@ -1,6 +1,6 @@
-package com.draen.service.cdrplus.writer;
+package com.draen.service.cdr.writer;
 
-import com.draen.domain.model.CdrPlusEntry;
+import com.draen.domain.model.CdrEntry;
 import com.draen.service.Serializer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,26 +9,26 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 
 @Service
-public class CdrPlusWriterImpl implements CdrPlusWriter {
-    @Value("${custom.files.cdr-plus-url}")
-    private String cdrPlusUrl;
+public class CdrWriterImpl implements CdrWriter {
+    @Value("${custom.files.cdr-url}")
+    private String cdrUrl;
     private BufferedWriter writer;
 
-    private final Serializer<CdrPlusEntry> serializer;
+    private final Serializer<CdrEntry> serializer;
 
-    public CdrPlusWriterImpl(Serializer<CdrPlusEntry> serializer) {
+    public CdrWriterImpl(Serializer<CdrEntry> serializer) {
         this.serializer = serializer;
     }
 
 
     @PostConstruct
     private void init() throws IOException {
-        File file = new File(cdrPlusUrl.replace("file:", ""));
+        File file = new File(cdrUrl.replace("file:", ""));
         writer = new BufferedWriter(new FileWriter(file));
     }
 
     @Override
-    public void writeEntry(CdrPlusEntry entry) {
+    public void writeEntry(CdrEntry entry) {
         try {
             serializer.serialize(entry, writer);
             writer.flush();
