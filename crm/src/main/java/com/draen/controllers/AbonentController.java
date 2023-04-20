@@ -1,13 +1,10 @@
 package com.draen.controllers;
 
-import com.draen.annotation.validationgroups.Create;
-import com.draen.data.client.dto.ClientDto;
-import com.draen.data.client.service.ClientService;
+import com.draen.annotation.validation.groups.Create;
 import com.draen.data.payment.dto.PaymentDto;
 import com.draen.data.payment.service.PaymentService;
 import com.draen.data.report.dto.ReportDto;
 import com.draen.data.report.service.ReportService;
-import com.draen.domain.entity.Client;
 import com.draen.domain.entity.Report;
 import com.draen.domain.entity.Payment;
 import com.draen.service.Mapper;

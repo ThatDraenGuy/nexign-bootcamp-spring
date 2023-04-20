@@ -18,18 +18,22 @@ public class CallSummary {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "CALL_TYPE_ID")
-    private CallType callType;
-
-    private LocalDateTime startTime;
-
-    private LocalDateTime endTime;
-
-    private Duration duration;
-
-    private double cost;
+    @JoinColumn(name = "REPORT_ID", nullable = false)
+    private Report report;
 
     @ManyToOne
-    @JoinColumn(name = "MONETARY_UNIT_ID")
-    private MonetaryUnit monetaryUnit;
+    @JoinColumn(name = "CALL_TYPE_ID", nullable = false)
+    private CallType callType;
+
+    @Column(nullable = false)
+    private LocalDateTime startTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
+
+    @Column(nullable = false)
+    private Duration duration;
+
+    @Column(nullable = false)
+    private double cost;
 }

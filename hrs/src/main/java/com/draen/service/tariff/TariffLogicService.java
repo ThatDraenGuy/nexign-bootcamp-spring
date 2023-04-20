@@ -31,8 +31,7 @@ public interface TariffLogicService {
                 cdrPlusEntry.getStartTime(),
                 cdrPlusEntry.getEndTime(),
                 cdrPlusEntry.getDuration().toString(),
-                cost,
-                getMonetaryUnit().getCode()
+                cost
         ));
     }
 

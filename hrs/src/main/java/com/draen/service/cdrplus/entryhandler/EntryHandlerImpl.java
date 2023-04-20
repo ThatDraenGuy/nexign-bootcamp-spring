@@ -36,6 +36,7 @@ public class EntryHandlerImpl implements EntryHandler {
         if (! reports.containsKey(phoneNumber)) {
             report = new ReportDto(
                     null,
+                    null,
                     phoneNumber,
                     tariff.getCode(),
                     new ArrayList<>(),

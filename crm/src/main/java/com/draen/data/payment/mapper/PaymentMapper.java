@@ -1,6 +1,6 @@
 package com.draen.data.payment.mapper;
 
-import com.draen.annotation.MapperService;
+import com.draen.annotation.service.MapperService;
 import com.draen.data.client.service.ClientService;
 import com.draen.data.monetaryunit.service.MonetaryUnitService;
 import com.draen.data.payment.dto.PaymentDto;

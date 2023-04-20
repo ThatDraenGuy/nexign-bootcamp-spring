@@ -25,7 +25,8 @@ public class ClientGeneratorImpl implements ClientGenerator {
                 null,
                 phoneNumberGenerator.generateNewNumber(),
                 balanceGenerator.generateBalance(),
-                tariffService.findRandom()
+                tariffService.findRandom(),
+                null
         );
     }
 }

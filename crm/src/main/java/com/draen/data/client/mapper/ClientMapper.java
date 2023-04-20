@@ -1,6 +1,6 @@
 package com.draen.data.client.mapper;
 
-import com.draen.annotation.MapperService;
+import com.draen.annotation.service.MapperService;
 import com.draen.data.client.dto.ClientDto;
 import com.draen.data.tariff.service.TariffService;
 import com.draen.domain.entity.Client;
@@ -20,7 +20,8 @@ public class ClientMapper implements Mapper<Client, ClientDto> {
                 null,
                 dto.getNumberPhone(),
                 dto.getBalance(),
-                tariffService.findByCode(dto.getTariffCode())
+                tariffService.findByCode(dto.getTariffCode()),
+                null
         );
     }
 

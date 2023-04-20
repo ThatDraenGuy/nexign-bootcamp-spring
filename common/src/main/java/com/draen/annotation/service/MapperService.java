@@ -1,16 +1,17 @@
-package com.draen.annotation;
+package com.draen.annotation.service;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Component
+@Service
 public @interface MapperService {
 
-    @AliasFor(annotation = Component.class)
+    @AliasFor(annotation = Service.class)
     String value() default "";
 
 }

@@ -17,7 +17,7 @@ public class CallSummaryDeserializer implements Deserializer<CallSummaryDto> {
         if (line == null) return Optional.empty();
 
         String[] split = line.split(", ");
-        if (split.length != 6) throw new ParseException("Call summary parse exception: " + line);
+        if (split.length != 5) throw new ParseException("Call summary parse exception: " + line);
 
         return Optional.of(new CallSummaryDto(
                 null,
@@ -25,8 +25,7 @@ public class CallSummaryDeserializer implements Deserializer<CallSummaryDto> {
                 split[1],
                 split[2],
                 split[3],
-                Double.parseDouble(split[4]),
-                split[5]
+                Double.parseDouble(split[4])
         ));
     }
 }

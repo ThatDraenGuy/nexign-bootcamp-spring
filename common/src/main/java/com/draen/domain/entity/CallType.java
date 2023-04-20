@@ -14,7 +14,9 @@ public class CallType {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable = false)
     private String code;
 
+    @Column(nullable = false)
     private String name;
 }

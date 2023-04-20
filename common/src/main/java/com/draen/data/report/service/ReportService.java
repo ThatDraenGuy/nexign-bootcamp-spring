@@ -8,6 +8,5 @@ import java.util.Map;
 
 @Service
 public interface ReportService {
-    void saveAll(Iterable<Report> reports);
     Report find(String phoneNumber);
 }

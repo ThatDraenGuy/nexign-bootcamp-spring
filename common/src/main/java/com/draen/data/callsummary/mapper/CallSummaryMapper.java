@@ -1,6 +1,6 @@
 package com.draen.data.callsummary.mapper;
 
-import com.draen.annotation.MapperService;
+import com.draen.annotation.service.MapperService;
 import com.draen.data.callsummary.dto.CallSummaryDto;
 import com.draen.data.calltype.service.CallTypeService;
 import com.draen.data.monetaryunit.service.MonetaryUnitService;
@@ -27,12 +27,12 @@ public class CallSummaryMapper implements Mapper<CallSummary, CallSummaryDto> {
     public CallSummary toEntity(CallSummaryDto dto) {
         return new CallSummary(
                 dto.getId(),
+                null,
                 callTypeService.findByCode(dto.getCallTypeCode()),
                 LocalDateTime.parse(dto.getStartTime(), formatter),
                 LocalDateTime.parse(dto.getEndTime(), formatter),
                 Duration.parse(dto.getDuration()),
-                dto.getCost(),
-                monetaryUnitService.findByCode(dto.getMonetaryUnitCode())
+                dto.getCost()
         );
     }
 
@@ -44,8 +44,7 @@ public class CallSummaryMapper implements Mapper<CallSummary, CallSummaryDto> {
                 formatter.format(entity.getStartTime()),
                 formatter.format(entity.getEndTime()),
                 entity.getDuration().toString(),
-                entity.getCost(),
-                entity.getMonetaryUnit().getCode()
+                entity.getCost()
         );
     }
 }

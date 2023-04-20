@@ -17,23 +17,23 @@ public class Report {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "CLIENT_ID")
+    @JoinColumn(name = "BILLING_OPERATION_ID", nullable = false)
+    private BillingOperation billingOperation;
+
+    @ManyToOne
+    @JoinColumn(name = "CLIENT_ID", nullable = false)
     private Client client;
 
+    @Column(nullable = false)
     private double totalCost;
+
+    @Column(nullable = false)
     private int totalMinutes;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "report_call_summaries",
-            joinColumns =
-                    @JoinColumn(name = "REPORT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns =
-                    @JoinColumn(name = "CDR_ID", referencedColumnName = "ID")
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
     private List<CallSummary> records;
 
     @ManyToOne
-    @JoinColumn(name = "MONETARY_UNIT_ID")
+    @JoinColumn(name = "MONETARY_UNIT_ID", nullable = false)
     private MonetaryUnit monetaryUnit;
 }

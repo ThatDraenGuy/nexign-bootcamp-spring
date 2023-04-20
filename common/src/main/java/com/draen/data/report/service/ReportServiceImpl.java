@@ -25,18 +25,18 @@ public class ReportServiceImpl implements ReportService {
         this.transactionTemplate = transactionTemplate;
     }
 
-    @Override
-    public void saveAll(Iterable<Report> reports) {
-        transactionTemplate.execute(status -> {
-            for (Report report : reports) {
-                callSummaryRepository.saveAll(report.getRecords());
-                report.getClient().setBalance(report.getClient().getBalance() - report.getTotalCost());
-                clientRepository.save(report.getClient());
-            }
-            reportRepository.saveAll(reports);
-            return null;
-        });
-    }
+//    @Override
+//    public void saveAll(Iterable<Report> reports) {
+//        transactionTemplate.execute(status -> {
+//            for (Report report : reports) {
+//                callSummaryRepository.saveAll(report.getRecords());
+//                report.getClient().setBalance(report.getClient().getBalance() - report.getTotalCost());
+//                clientRepository.save(report.getClient());
+//            }
+//            reportRepository.saveAll(reports);
+//            return null;
+//        });
+//    }
 
     @Override
     public Report find(String phoneNumber) {

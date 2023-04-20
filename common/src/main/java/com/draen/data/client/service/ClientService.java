@@ -11,6 +11,6 @@ public interface ClientService {
     Client update(Client client);
     Client findByNumber(String phoneNumber);
     Client findActiveByNumber(String phoneNumber);
-    List<Client> findAll();
+    List<Client> findAllByLastBilling();
     Client findRandom();
 }

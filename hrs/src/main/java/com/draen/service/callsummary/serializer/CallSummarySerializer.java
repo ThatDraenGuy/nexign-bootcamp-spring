@@ -16,8 +16,7 @@ public class CallSummarySerializer implements Serializer<CallSummaryDto> {
                 item.getStartTime() + ", " +
                 item.getEndTime() + ", " +
                 item.getDuration() + ", " +
-                item.getCost() + ", " +
-                item.getMonetaryUnitCode();
+                item.getCost();
         writer.write(str);
     }
 }

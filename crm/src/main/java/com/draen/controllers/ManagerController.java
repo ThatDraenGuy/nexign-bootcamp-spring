@@ -1,7 +1,7 @@
 package com.draen.controllers;
 
-import com.draen.annotation.validationgroups.Create;
-import com.draen.annotation.validationgroups.Update;
+import com.draen.annotation.validation.groups.Create;
+import com.draen.annotation.validation.groups.Update;
 import com.draen.data.client.dto.ClientDto;
 import com.draen.data.client.dto.ClientShortDto;
 import com.draen.data.client.service.ClientService;
@@ -51,7 +51,7 @@ public class ManagerController {
     public ResponseEntity<List<ClientShortDto>> tarifficate() {
         ServiceResponse response = tarifficationMessenger.requestTariffication();
         if (response.getStatus().equals(ResponseStatus.SUCCESS)) {
-            return ResponseEntity.ok(clientShortMapper.toDtos(clientService.findAll()));
+            return ResponseEntity.ok(clientShortMapper.toDtos(clientService.findAllByLastBilling()));
         } else
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, response.getMessage());
     }

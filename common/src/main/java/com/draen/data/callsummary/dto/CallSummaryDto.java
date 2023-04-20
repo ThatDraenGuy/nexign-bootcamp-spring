@@ -1,6 +1,6 @@
 package com.draen.data.callsummary.dto;
 
-import com.draen.annotation.validationgroups.Create;
+import com.draen.annotation.validation.groups.Create;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +17,4 @@ public class CallSummaryDto {
     private String endTime;
     private String duration;
     private double cost;
-    private String monetaryUnitCode;
 }

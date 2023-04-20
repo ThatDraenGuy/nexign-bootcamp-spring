@@ -1,6 +1,6 @@
 package com.draen.data.report.dto;
 
-import com.draen.annotation.validationgroups.Create;
+import com.draen.annotation.validation.groups.Create;
 import com.draen.data.callsummary.dto.CallSummaryDto;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,9 @@ import java.util.List;
 public class ReportDto {
     @Null(groups = {Create.class})
     private Long id;
+
+    @Null(groups = {Create.class})
+    private Integer billingOperationNumber;
     private String phoneNumber;
     private String tariffCode;
     private List<CallSummaryDto> payload;

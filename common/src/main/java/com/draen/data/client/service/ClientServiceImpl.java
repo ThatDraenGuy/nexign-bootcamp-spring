@@ -1,24 +1,27 @@
 package com.draen.data.client.service;
 
+import com.draen.data.billingoperation.repository.BillingOperationRepository;
 import com.draen.data.client.repository.ClientRepository;
+import com.draen.domain.entity.BillingOperation;
 import com.draen.domain.entity.Client;
-import com.draen.domain.entity.Payment;
 import com.draen.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
+    private final BillingOperationRepository billingOperationRepository;
     private final TransactionTemplate transactionTemplate;
 
-    public ClientServiceImpl(ClientRepository repository, TransactionTemplate transactionTemplate) {
+    public ClientServiceImpl(ClientRepository repository, BillingOperationRepository billingOperationRepository,
+                             TransactionTemplate transactionTemplate) {
         this.repository = repository;
+        this.billingOperationRepository = billingOperationRepository;
         this.transactionTemplate = transactionTemplate;
     }
 
@@ -56,12 +59,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> findAll() {
+    public List<Client> findAllByLastBilling() {
         return transactionTemplate.execute(status -> {
-            Iterable<Client> entities = repository.findAll();
-            List<Client> list = new ArrayList<>();
-            entities.forEach(list::add);
-            return list;
+            BillingOperation operation = billingOperationRepository.findTopByOrderByOperationNumberDesc();
+            return repository.findByReports_BillingOperation_OperationNumber(operation.getOperationNumber());
         });
     }
 

@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,11 +41,17 @@ public class CdrPlusProviderImpl implements CdrPlusProvider {
             while (true) {
                 Optional<CdrPlusEntry> entry = cdrPlusEntryDeserializer.deserialize(reader);
                 if (entry.isEmpty()) break;
-                entries.add(entry.get());
+                try {
+                    add(entries, entry.get());
+                } catch (Exception ignored) {}
             }
             return entries;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private void add(List<CdrPlusEntry> entries, @Validated CdrPlusEntry entry) {
+        entries.add(entry);
     }
 }

@@ -1,7 +1,6 @@
 package com.draen.data.client.repository;
 
 import com.draen.domain.entity.Client;
-import com.draen.domain.entity.Tariff;
 import jakarta.transaction.Transactional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,6 +19,8 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 
     @Cacheable("clients")
     Optional<Client> findByPhoneNumberEqualsAndBalanceGreaterThan(String phoneNumber, double money);
+
+    List<Client> findByReports_BillingOperation_OperationNumber(Integer operationNumber);
 
     Page<Client> findAll(Pageable pageable);
 

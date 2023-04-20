@@ -28,6 +28,7 @@ public class ReportDeserializer implements Deserializer<ReportDto> {
         int callSummariesNum = Integer.parseInt(split[5]);
         ReportDto report = new ReportDto(
                 null,
+                null,
                 split[0],
                 split[1],
                 new ArrayList<>(callSummariesNum),

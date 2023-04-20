@@ -14,7 +14,9 @@ public class Tariff {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String code;
 
+    @Column(nullable = false, unique = true)
     private String name;
 }

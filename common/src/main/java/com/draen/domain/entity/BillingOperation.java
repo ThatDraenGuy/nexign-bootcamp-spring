@@ -1,31 +1,31 @@
 package com.draen.domain.entity;
 
-import com.draen.domain.entity.MonetaryUnit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
-@Table(name = "payments")
+@Table(name = "billing_operations")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class BillingOperation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "CLIENT_ID", nullable = false)
-    private Client client;
+    @Column(nullable = false)
+    private Integer operationNumber;
 
     @Column(nullable = false)
-    private int money;
+    private LocalDateTime operationDateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "MONETARY_UNIT_ID", nullable = false)
-    private MonetaryUnit monetaryUnit;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingOperation")
+    private List<Report> reports;
 }
