@@ -16,11 +16,9 @@ import java.util.List;
 @Service
 public class ReportGenerationListener {
     private final ReportGenerator reportGenerator;
-    private final CdrPlusProvider cdrPlusProvider;
 
-    public ReportGenerationListener(ReportGenerator reportGenerator, CdrPlusProvider cdrPlusProvider) {
+    public ReportGenerationListener(ReportGenerator reportGenerator) {
         this.reportGenerator = reportGenerator;
-        this.cdrPlusProvider = cdrPlusProvider;
     }
 
 
@@ -28,8 +26,7 @@ public class ReportGenerationListener {
     @SendTo("${custom.jms.destination.report-generation}")
     public ServiceResponse generateReports(@Payload ServiceRequest request) {
         try {
-            List<CdrPlusEntry> entries = cdrPlusProvider.getCdrPlus();
-            reportGenerator.generateReports(entries);
+            reportGenerator.generateReports();
             return new ServiceResponse(ResponseStatus.SUCCESS, "Successfully generated reports");
         } catch (Exception e) {
             return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, "hrs error: " + e.getMessage());

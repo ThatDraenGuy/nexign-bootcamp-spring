@@ -16,6 +16,7 @@ import com.draen.service.cdrplus.writer.CdrPlusWriter;
 import com.draen.service.report.provider.ReportProvider;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,13 @@ public class TarifficationService {
     }
 
     public ServiceResponse tarifficate() {
+        try {
+            cdrProvider.init();
+            cdrPlusWriter.init();
+        } catch (IOException e) {
+            return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, e.getMessage());
+        }
+
         List<CdrEntry> cdrEntries = cdrProvider.getEntries();
         for (CdrEntry entry : cdrEntries) {
             Optional<CdrPlusEntry> cdrPlusEntry = cdrPlusCreator.createEntry(entry);
@@ -55,6 +63,11 @@ public class TarifficationService {
         ServiceResponse response = reportGenerationMessenger.requestReportGeneration();
 
         if (response.getStatus().equals(ResponseStatus.SUCCESS)) {
+            try {
+                reportProvider.init();
+            } catch (IOException e) {
+                return new ServiceResponse(ResponseStatus.CONSUMER_ERROR, e.getMessage());
+            }
             List<Report> reports = reportMapper.toEntities(reportProvider.getReports());
             billingOperationService.create(new BillingOperation (
                     null,

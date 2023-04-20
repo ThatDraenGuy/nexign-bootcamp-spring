@@ -20,8 +20,7 @@ public class ReportWriterImpl implements ReportWriter {
         this.reportSerializer = reportSerializer;
     }
 
-    @PostConstruct
-    private void init() throws IOException {
+    public void init() throws IOException {
         File file = new File(reportsUrl.replace("file:", ""));
         writer = new BufferedWriter(new FileWriter(file));
     }

@@ -17,7 +17,6 @@ import java.util.Optional;
 public interface ClientRepository extends CrudRepository<Client, Long> {
     Optional<Client> findByPhoneNumber(String phoneNumber);
 
-    @Cacheable("clients")
     Optional<Client> findByPhoneNumberEqualsAndBalanceGreaterThan(String phoneNumber, double money);
 
     List<Client> findByReports_BillingOperation_OperationNumber(Integer operationNumber);

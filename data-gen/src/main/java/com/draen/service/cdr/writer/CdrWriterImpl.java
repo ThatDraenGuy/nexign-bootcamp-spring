@@ -21,8 +21,7 @@ public class CdrWriterImpl implements CdrWriter {
     }
 
 
-    @PostConstruct
-    private void init() throws IOException {
+    public void init() throws IOException {
         File file = new File(cdrUrl.replace("file:", ""));
         writer = new BufferedWriter(new FileWriter(file));
     }

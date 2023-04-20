@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/abonent")
+@RestController
+@RequestMapping("/abonent")
 public class AbonentController {
     private final ReportService reportService;
     private final PaymentService paymentService;

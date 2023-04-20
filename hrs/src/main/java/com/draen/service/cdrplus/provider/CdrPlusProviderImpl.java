@@ -28,8 +28,7 @@ public class CdrPlusProviderImpl implements CdrPlusProvider {
         this.cdrPlusEntryDeserializer = cdrPlusEntryDeserializer;
     }
 
-    @PostConstruct
-    private void init() throws IOException {
+    public void init() throws IOException {
         UrlResource source = new UrlResource(sourceURL);
         reader = new BufferedReader(new InputStreamReader(source.getInputStream()));
     }

@@ -9,6 +9,8 @@ import com.draen.service.client.generator.ClientGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class DataGenerationService {
     @Value("${custom.amount.cdr-entries}")
@@ -30,7 +32,8 @@ public class DataGenerationService {
         this.clientService = clientService;
     }
 
-    public void generateCdrs() {
+    public void generateCdrs() throws IOException {
+        cdrWriter.init();
         for (int i = 0; i < cdrEntriesAmount; i++) {
             CdrEntry entry = cdrEntryGenerator.generateEntry();
             cdrWriter.writeEntry(entry);

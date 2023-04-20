@@ -1,12 +1,11 @@
 package com.draen.service.report.generator;
 
-import com.draen.domain.model.CdrPlusEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.io.IOException;
 
 
 @Service
 public interface ReportGenerator {
-    void generateReports(List<CdrPlusEntry> entries);
+    void generateReports() throws IOException;
 }
