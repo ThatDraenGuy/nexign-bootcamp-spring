@@ -41,7 +41,9 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Report find(String phoneNumber) {
         return transactionTemplate.execute(status -> {
-            return reportRepository.findByClient_PhoneNumber(phoneNumber).orElseThrow(() ->
+            return reportRepository
+                    .findTopByClient_PhoneNumberOrderByBillingOperation_OperationNumberDesc(phoneNumber)
+                    .orElseThrow(() ->
                     new NotFoundException("No such report"));
         });
     }

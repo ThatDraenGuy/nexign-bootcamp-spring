@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface ReportRepository extends CrudRepository<Report, Long> {
-    Optional<Report> findByClient_PhoneNumber(String phoneNumber);
+    Optional<Report> findTopByClient_PhoneNumberOrderByBillingOperation_OperationNumberDesc(String phoneNumber);
+//    Optional<Report> findByClient_PhoneNumber(String phoneNumber);
 
     @Modifying
     @Transactional

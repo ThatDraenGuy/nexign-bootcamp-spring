@@ -5,4 +5,5 @@ include 'hrs'
 include 'crm'
 include 'server-config'
 include 'data-gen'
+include 'gateway'
 
