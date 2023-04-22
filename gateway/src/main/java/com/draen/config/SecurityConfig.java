@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .requestMatchers(managerUrls).hasAuthority(UserRole.MANAGER.name())
                 .requestMatchers(abonentUrls).hasAuthority(UserRole.ABONENT.name())
                 .requestMatchers(permitUrls).permitAll()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
         http.addFilterBefore(authJwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint);
 
