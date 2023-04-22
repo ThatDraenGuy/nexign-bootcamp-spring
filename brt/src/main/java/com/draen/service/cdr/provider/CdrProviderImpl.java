@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 public class CdrProviderImpl implements CdrProvider {
-    @Value("${custom.files.cdr-url}")
+    @Value("${custom.url.cdr}")
     private String sourceURL;
     private BufferedReader reader;
 

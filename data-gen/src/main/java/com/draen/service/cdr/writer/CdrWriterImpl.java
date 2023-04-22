@@ -10,7 +10,7 @@ import java.io.*;
 
 @Service
 public class CdrWriterImpl implements CdrWriter {
-    @Value("${custom.files.cdr-url}")
+    @Value("${custom.files.cdr}")
     private String cdrUrl;
     private BufferedWriter writer;
 
@@ -22,7 +22,7 @@ public class CdrWriterImpl implements CdrWriter {
 
 
     public void init() throws IOException {
-        File file = new File(cdrUrl.replace("file:", ""));
+        File file = new File(cdrUrl);
         writer = new BufferedWriter(new FileWriter(file));
     }
 

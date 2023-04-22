@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 public class CdrPlusProviderImpl implements CdrPlusProvider {
-    @Value("${custom.files.cdr-plus-url}")
+    @Value("${custom.url.cdr-plus}")
     private String sourceURL;
     private BufferedReader reader;
 

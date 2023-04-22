@@ -10,7 +10,7 @@ import java.io.*;
 
 @Service
 public class ReportWriterImpl implements ReportWriter {
-    @Value("${custom.files.reports-url}")
+    @Value("${custom.files.reports}")
     private String reportsUrl;
     private BufferedWriter writer;
 
@@ -21,7 +21,7 @@ public class ReportWriterImpl implements ReportWriter {
     }
 
     public void init() throws IOException {
-        File file = new File(reportsUrl.replace("file:", ""));
+        File file = new File(reportsUrl);
         writer = new BufferedWriter(new FileWriter(file));
     }
     @Override

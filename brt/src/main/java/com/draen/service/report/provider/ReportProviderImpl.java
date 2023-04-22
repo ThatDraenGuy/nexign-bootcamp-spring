@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 public class ReportProviderImpl implements ReportProvider {
-    @Value("${custom.files.reports-url}")
+    @Value("${custom.url.reports}")
     private String sourceURL;
     private BufferedReader reader;
 

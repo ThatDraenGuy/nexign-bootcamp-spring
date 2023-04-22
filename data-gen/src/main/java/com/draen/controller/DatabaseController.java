@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/database")
-public class DatabaseController {
+public class    DatabaseController {
     private final DatabaseService databaseService;
 
     public DatabaseController(DatabaseService databaseService) {
