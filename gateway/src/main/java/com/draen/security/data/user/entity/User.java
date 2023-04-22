@@ -20,10 +20,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "client_id", unique = true, nullable = false, updatable = false)
+    @OneToOne
+    @JoinColumn(name = "client_id", unique = true, updatable = false)
     private Client client;
 
+    private String username;
     private String password;
 
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)

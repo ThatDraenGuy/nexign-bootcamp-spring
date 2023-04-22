@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByPhoneNumber(String phoneNumber) {
+    public User findByUsername(String username) {
         return transactionTemplate.execute(status -> {
-            return repository.findByClient_PhoneNumber(phoneNumber).orElseThrow(
+            return repository.findByUsername(username).orElseThrow(
                     () -> new NotFoundException("User not found")
             );
         });
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         return transactionTemplate.execute(status -> {
-            if (repository.existsByClient_PhoneNumber(user.getClient().getPhoneNumber()))
+            if (repository.existsByUsername(user.getUsername()))
                 throw new RuntimeException(); //TODO
             String encodedPassword = encoder.encode(user.getPassword());
             user.setPassword(encodedPassword);

@@ -20,7 +20,10 @@ public class UserMapper implements Mapper<User, UserDto> {
     public User toEntity(UserDto dto) {
         return new User(
                 dto.getId(),
-                clientService.findByNumber(dto.getUsername()),
+                dto.getPhoneNumber() != null
+                        ? clientService.findByNumber(dto.getPhoneNumber())
+                        : null,
+                dto.getUsername(),
                 dto.getPassword(),
                 new HashSet<>()
         );
@@ -30,7 +33,10 @@ public class UserMapper implements Mapper<User, UserDto> {
     public UserDto toDto(User entity) {
         return new UserDto(
                 entity.getId(),
-                entity.getClient().getPhoneNumber(),
+                entity.getClient() != null
+                        ? entity.getClient().getPhoneNumber()
+                        : null,
+                entity.getUsername(),
                 null,
                 entity.getRoles()
         );

@@ -26,7 +26,7 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getClient().getPhoneNumber();
+        return user.getUsername();
     }
 
     @Override

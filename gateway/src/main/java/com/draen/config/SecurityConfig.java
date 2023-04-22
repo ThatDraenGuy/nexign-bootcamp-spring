@@ -52,13 +52,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthJwtFilter authJwtFilter) throws Exception {
-        http.cors().and().csrf().disable(); //TODO read
+        http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()
                 .requestMatchers(managerUrls).hasAuthority(UserRole.MANAGER.name())
                 .requestMatchers(abonentUrls).hasAuthority(UserRole.ABONENT.name())
                 .requestMatchers(permitUrls).permitAll()
-                .anyRequest().authenticated();
-
+                .anyRequest().permitAll();
         http.addFilterBefore(authJwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint);
 

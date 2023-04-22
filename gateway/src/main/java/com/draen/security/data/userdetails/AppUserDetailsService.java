@@ -18,7 +18,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            return new AppUserDetails(userService.findByPhoneNumber(username));
+            return new AppUserDetails(userService.findByUsername(username));
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException("User not found");
         }

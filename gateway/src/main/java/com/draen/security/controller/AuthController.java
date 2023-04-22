@@ -57,14 +57,14 @@ public class AuthController {
             return ResponseEntity
                     .ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(userMapper.toDto(userService.findByPhoneNumber(userDto.getUsername())));
+                    .body(userMapper.toDto(userService.findByUsername(userDto.getUsername())));
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> register(@RequestBody @Validated({Query.class}) UserDto userDto) {
         try {
             return ResponseEntity.ok(userMapper.toDto(userService.save(userMapper.toEntity(userDto))));
         } catch (Exception e) {

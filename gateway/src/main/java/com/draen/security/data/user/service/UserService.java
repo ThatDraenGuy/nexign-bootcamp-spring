@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    User findByPhoneNumber(String phoneNumber);
+    User findByUsername(String username);
     User save(User user);
 }

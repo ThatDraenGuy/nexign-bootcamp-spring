@@ -37,11 +37,6 @@ public class JwtUtils {
         Cookie cookie = WebUtils.getCookie(request, "token");
         if (cookie==null) return null;
         return cookie.getValue();
-
-//        if (StringUtils.hasText(jwtHeader) && jwtHeader.startsWith("Bearer ")) {
-//            return jwtHeader.substring(7);
-//        }
-//        return null;
     }
 
     public boolean validateToken(String token) {
