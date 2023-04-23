@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Service
 public class DatabaseService {
@@ -24,6 +25,9 @@ public class DatabaseService {
     private final ResourceDatabasePopulator databasePopulator =
             new ResourceDatabasePopulator(false, false, "UTF-8",
                     new ClassPathResource("data.sql"));
+    private final ResourceDatabasePopulator databaseCreator =
+            new ResourceDatabasePopulator(true, false, "UTF-8",
+                    new ClassPathResource("schema.sql"));
     private final ResourceDatabasePopulator databaseDropper =
             new ResourceDatabasePopulator(false, false, "UTF-8",
                     new ClassPathResource("truncate.sql"));
@@ -43,16 +47,18 @@ public class DatabaseService {
     }
 
 
-    public void populate() {
+    public void populate() throws IOException {
+        databaseCreator.execute(dataSource);
         databasePopulator.execute(dataSource);
         dataGenerationService.generateClients();
+        dataGenerationService.generateCdrs();
     }
 
     public void truncate() {
         databaseDropper.execute(dataSource);
     }
 
-    public void reset() {
+    public void reset() throws IOException {
         truncate();
         populate();
     }
