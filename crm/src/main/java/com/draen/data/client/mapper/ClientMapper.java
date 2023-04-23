@@ -18,7 +18,7 @@ public class ClientMapper implements Mapper<Client, ClientDto> {
     public Client toEntity(ClientDto dto) {
         return new Client(
                 null,
-                dto.getNumberPhone(),
+                dto.getPhoneNumber(),
                 dto.getBalance(),
                 tariffService.findByCode(dto.getTariffCode()),
                 null

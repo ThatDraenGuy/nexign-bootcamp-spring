@@ -19,7 +19,7 @@ public class ClientDto {
 
     @NotBlank
     @LikePattern(regexp = "${custom.regex.phone-number.regexp}")
-    private String numberPhone;
+    private String phoneNumber;
 
     @Null(groups = {Update.class})
     private double balance;

@@ -1,5 +1,6 @@
 package com.draen.security.controller;
 
+import com.draen.annotation.validation.groups.Create;
 import com.draen.annotation.validation.groups.Query;
 import com.draen.security.data.user.dto.UserDto;
 import com.draen.security.data.user.entity.User;
@@ -64,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody @Validated({Query.class}) UserDto userDto) {
+    public ResponseEntity<UserDto> register(@RequestBody @Validated({Create.class}) UserDto userDto) {
         try {
             return ResponseEntity.ok(userMapper.toDto(userService.save(userMapper.toEntity(userDto))));
         } catch (Exception e) {
