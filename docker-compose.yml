@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   artemis:
     image: quay.io/artemiscloud/activemq-artemis-broker
@@ -113,9 +113,14 @@ services:
       - crm
       - data-gen
     networks:
-      - cdr-network
+      cdr-network:
+        ipv4_address: 172.25.0.101
     restart: always
 
 networks:
   cdr-network:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/24

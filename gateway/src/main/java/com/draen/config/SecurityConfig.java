@@ -34,6 +34,9 @@ public class SecurityConfig {
     @Value("${custom.security.urls.manager}")
     private String[] managerUrls;
 
+    @Value("${custom.security.enabled}")
+    private boolean isEnabled;
+
     private final AuthEntryPoint authEntryPoint;
 
     public SecurityConfig(AuthEntryPoint authEntryPoint) {
@@ -53,11 +56,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthJwtFilter authJwtFilter) throws Exception {
         http.cors().and().csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()
-                .requestMatchers(managerUrls).hasAuthority(UserRole.MANAGER.name())
-                .requestMatchers(abonentUrls).hasAuthority(UserRole.ABONENT.name())
-                .requestMatchers(permitUrls).permitAll()
-                .anyRequest().authenticated();
+        if (isEnabled) {
+            http.authorizeHttpRequests()
+                    .requestMatchers(managerUrls).hasAuthority(UserRole.MANAGER.name())
+                    .requestMatchers(abonentUrls).hasAuthority(UserRole.ABONENT.name())
+                    .requestMatchers(permitUrls).permitAll()
+                    .anyRequest().authenticated();
+        } else {
+            http.authorizeHttpRequests().anyRequest().permitAll();
+        }
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authJwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint);
 

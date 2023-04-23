@@ -34,3 +34,21 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task launch {
+    dependsOn (
+            ':brt:bootJar',
+            ':crm:bootJar',
+            ':data-gen:bootJar',
+            ':gateway:bootJar',
+            ':hrs:bootJar',
+            ':server-config:bootJar'
+    )
+    doLast {
+        exec {
+            workingDir '.'
+            commandLine 'sh', '-c',
+                    'docker-compose -f ./docker-compose.yml up -d --build'
+        }
+    }
+}

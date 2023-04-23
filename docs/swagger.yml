@@ -1,0 +1,473 @@
+openapi: 3.0.3
+info:
+  title: Nexign Bootcamp Task
+  description: Система тарификации пользователей по cdcr-файлу
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8084/
+tags:
+  - name: abonent
+    description: В этом разделе находятся методы взаимодействия абонента с системой
+  - name: manager
+    description: В этом разделе находятся методы взаимодействия менеджера с системой
+  - name: data-gen
+    description: В этом разделе находятся методы взаимодействия с системой генерации данных
+  - name: auth
+    description: В этом разделе находятся методы взаимодействия с системой аутентификации
+paths:
+  /crm/abonent/pay:
+    patch:
+      tags:
+        - abonent
+      summary: Пополнение баланса абонентом
+      description: Абонент пополняет свой счет
+      operationId: abonentPay
+      requestBody:
+        description: В теле запроса обязательно должен быть номер абонента и сумма, на которую абонент планирует пополнить баланс
+        content:
+          application/json:
+            schema:
+              required:
+                - phoneNumber
+                - money
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                  pattern: '^[1-9][0-9]{10}$'
+                  example: 79001112233
+                money:
+                  type: integer
+                  format: int64
+                  example: 400
+        required: true
+      responses:
+        '200':
+          description: Успешное пополнение баланса
+          content:
+            application/json:
+              schema:
+                required:
+                  - id
+                  - phoneNumber
+                  - balance
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 79001112233
+                  balance:
+                    type: number
+                    format: double
+                    example: 800
+
+  /crm/abonent/report/{numberPhone}:
+    get:
+      tags:
+        - abonent
+      summary: Просмотр абонентом отчёта за тарифный период
+      description: Просмотр абонентом отчёта за тарифный период
+      operationId: abonentReport
+      parameters: 
+        - in: path
+          name: numberPhone
+          required: true
+          schema:
+            type: string
+            pattern: '^[1-9][0-9]{10}$'
+            example: 70000000000
+          description: client's phone number
+      responses:
+        '200':
+          description: Успешный просмотр отчёта
+          content:
+            application/json:
+              schema:
+                required:
+                  - id
+                  - billingOperationNumber
+                  - phoneNumber
+                  - tariffCode
+                  - payload
+                  - totalMinutes
+                  - totalCost
+                  - monetaryUnitCost
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 101
+                  billingOperationNumber:
+                    type: integer
+                    format: int32
+                    example: 1
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 70000000000
+                  tariffCode:
+                    type: string
+                    example: "06"
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int64
+                          example: 501
+                        callTypeCode:
+                          type: string
+                          example: "01"
+                        startTime:
+                          type: string
+                          format: date-time
+                          example: 20230403181210
+                        endTime:
+                          type: string
+                          format: date-time
+                          example: 20230403185559
+                        duration:
+                          type: string
+                          format: duration
+                          example: PT43M49S
+                        cost:
+                          type: number
+                          format: double
+                          example: 66.5
+                  totalminutes:
+                    type: integer
+                    format: int32
+                    example: 44
+                  totalCost:
+                    type: number
+                    format: double
+                    example: 66.5
+                  monetaryUnitCode:
+                    type: string
+                    example: RUB
+
+          
+
+
+  /crm/manager/changeTariff:
+    patch:
+      tags:
+        - manager
+      summary: Менеджер меняет тариф абонента
+      description: Менеджер меняет тариф абонента
+      operationId: managerChangeTariff
+      requestBody:
+        description: В теле запроса обязательно должен быть номер телефона абонента и код тарифа
+        content:
+          application/json:
+            schema:
+              required:
+                - phoneNumber
+                - tariffCode
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                  pattern: '^[1-9][0-9]{10}$'
+                  example: 79001112233
+                tariffCode:
+                  type: string
+                  example: "03"
+                balance:
+                  type: number
+                  format: double
+                  example: 400
+        required: true
+      responses: 
+        '200':
+          description: Успешное изменение тарифа
+          content:
+            application/json:
+              schema:
+                required: 
+                  - id
+                  - phoneNumber
+                  - balance
+                  - tariffCode
+                type: object
+                properties: 
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 79001112233
+                  tarrif:
+                    type: string
+                    example: "03"
+                  balance:
+                    type: number
+                    format: double
+                    example: 300
+
+  /crm/manager/abonent:
+    post:
+      tags:
+        - manager
+      summary: Менеджер создаёт нового абонента
+      description: Менеджер создаёт нового абонента
+      operationId: managerAbonent
+      requestBody:
+        description: В теле запроса обязательно должен быть номер телефона абонента и код тарифа
+        content:
+          application/json:
+            schema:
+              required:
+                - phoneNumber
+                - tarrifCode
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                  pattern: '^[1-9][0-9]{10}$'
+                  example: 79001112233
+                balance:
+                  type: number
+                  format: double
+                  example: 300
+                tarrifCode:
+                  type: string
+                  example: "03"
+        required: true
+      responses:
+        '200':
+          description: Успешное создание абонента
+          content:
+            application/json:
+              schema:
+                required:
+                  - id
+                  - phoneNumber
+                  - tarrif
+                  - balance
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 79001112233
+                  tarrif:
+                    type: string
+                    example: "03"
+                  balance:
+                    type: number
+                    format: double
+                    example: 300
+
+  /crm/manager/billing:
+    patch:
+      tags:
+        - manager
+      summary: Менеджер запускает процесс тарификации
+      description: Менеджер запускает процесс тарификации
+      operationId: managerBilling
+      responses:
+        '200':
+          description: Успешное выполнение тарификации
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    phoneNumber:
+                      type: string
+                      pattern: '^[1-9][0-9]{10}$'
+                      example: 79001112233
+                    balance:
+                      type: number
+                      format: double
+                      example: 300
+
+                
+  /data-gen/generate/cdr:
+    post:
+      tags:
+        - data-gen
+      summary: Запуск генерации cdr-файла
+      description: Запуск генерации cdr-файла
+      operationId: generateCdr
+      responses:
+        '200':
+          description: Успешная генерация cdr-файла
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+
+  /data-gen/generate/clients:
+    post:
+      tags:
+        - data-gen
+      summary: Запуск генерации клиентов
+      description: Запуск генерации клиентов
+      operationId: generateClients
+      responses:
+        '200':
+          description: Успешная генерация клиентов
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+
+  /data-gen/database/reset:
+    post:
+      tags:
+        - data-gen
+      summary: Запуск сброса и повторной популяции БД
+      description: Запуск сброса и повторной популяции БД
+      operationId: databaseReset
+      responses:
+        '200':
+          description: Успешный сброс БД
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+
+
+
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Логин в аккаунт пользователя
+      description: Логин в аккаунт пользователя
+      operationId: authLogin
+      requestBody:
+        description: В теле запроса обязательно должен быть логин и пароль пользователя
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: aboba
+                password:
+                  type: string
+                  example: aboba
+        required: true
+      responses:
+        '200':
+          description: Успешный логин
+          headers:
+            Set-Cookie: 
+              description: jwt-token
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                required:
+                  - id
+                  - username
+                  - roles
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 101
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 70000000000 
+                  username:
+                    type: string
+                    example: aboba
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                      example: ABONENT
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Регистрация нового пользователя
+      description: Регистрация нового пользователя
+      operationId: authRegister
+      requestBody:
+        description: В теле запроса обязательно должен быть логин и пароль пользователя
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: aboba
+                password:
+                  type: string
+                  example: aboba
+                phoneNumber:
+                  type: string
+                  pattern: '^[1-9][0-9]{10}$'
+                  example: 70000000000 
+        required: true
+      responses:
+        '200':
+          description: Успешный логин
+          content:
+            application/json:
+              schema:
+                required:
+                  - id
+                  - username
+                  - roles
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 101
+                  phoneNumber:
+                    type: string
+                    pattern: '^[1-9][0-9]{10}$'
+                    example: 70000000000 
+                  username:
+                    type: string
+                    example: aboba
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                      example: ABONENT
+
+
+
+
+      
