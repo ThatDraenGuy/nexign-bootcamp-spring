@@ -1,0 +1,121 @@
+version: '2'
+services:
+  artemis:
+    image: quay.io/artemiscloud/activemq-artemis-broker
+    environment:
+      - AMQ_USER=aboba
+      - AMQ_PASSWORD=aboba
+    ports:
+      - "8161:8161"
+      - "61616:61616"
+    networks:
+      - cdr-network
+    restart: always
+
+  postgresql:
+    image: postgres:11-alpine
+    environment:
+      - POSTGRES_USER=aboba
+      - POSTGRES_PASSWORD=aboba
+      - POSTGRES_DB=nexign_bootcamp
+    ports:
+      - "54320:5432"
+    volumes:
+      - ./postgres-volume:/var/lib/postgresql/volumes
+    networks:
+      - cdr-network
+    restart: always
+
+  server-config:
+    build:
+      context: server-config
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    networks:
+      - cdr-network
+    restart: always
+
+  crm:
+    build:
+      context: crm
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql
+      - artemis
+      - server-config
+    networks:
+      - cdr-network
+    restart: always
+
+  brt:
+    build:
+      context: brt
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgresql
+      - artemis
+      - server-config
+      - hrs
+    networks:
+      - cdr-network
+    restart: always
+    volumes:
+      - ./files:/home/files
+
+  hrs:
+    build:
+      context: hrs
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgresql
+      - artemis
+      - server-config
+      - data-gen
+    networks:
+      - cdr-network
+    restart: always
+    volumes:
+      - ./files:/home/files
+
+  data-gen:
+    build:
+      context: data-gen
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgresql
+      - artemis
+      - server-config
+    networks:
+      - cdr-network
+    restart: always
+    volumes:
+      - ./files:/home/files
+
+  gateway:
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - postgresql
+      - artemis
+      - server-config
+      - crm
+      - data-gen
+    networks:
+      - cdr-network
+    restart: always
+
+networks:
+  cdr-network:
+    driver: bridge

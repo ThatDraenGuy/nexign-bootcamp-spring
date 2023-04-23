@@ -23,6 +23,7 @@ public class CdrWriterImpl implements CdrWriter {
 
     public void init() throws IOException {
         File file = new File(cdrUrl);
+        if (! file.exists()) file.createNewFile();
         writer = new BufferedWriter(new FileWriter(file));
     }
 
