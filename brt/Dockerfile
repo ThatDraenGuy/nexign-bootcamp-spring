@@ -1,3 +1,5 @@
 FROM openjdk:17-alpine
-COPY build/libs/brt-0.0.1-SNAPSHOT.jar brt-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","/brt-0.0.1-SNAPSHOT.jar"]
+ARG JAR_FILE=build/libs/*.jar
+COPY $JAR_FILE app.jar
+RUN apk --no-cache add curl
+ENTRYPOINT ["java","-jar","/app.jar"]

@@ -1,3 +1,5 @@
-FROM openjdk:17
-COPY build/libs/data-gen-0.0.1-SNAPSHOT.jar data-gen-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","/data-gen-0.0.1-SNAPSHOT.jar"]
+FROM amazoncorretto:17.0.2-alpine
+ARG JAR_FILE=build/libs/*.jar
+COPY $JAR_FILE app.jar
+RUN apk --no-cache add curl
+ENTRYPOINT ["java","-jar","/app.jar"]

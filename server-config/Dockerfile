@@ -1,4 +1,6 @@
 FROM openjdk:17-alpine
-COPY build/libs/server-config-0.0.1-SNAPSHOT.jar server-config-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/*.jar
+COPY $JAR_FILE app.jar
+RUN apk --no-cache add curl
 ADD config/application.properties /home/config/application.properties
-ENTRYPOINT ["java","-jar","/server-config-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]

@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.retry:spring-retry:2.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-aop:3.0.5'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.cloud:spring-cloud-gateway-mvc:4.0.4'

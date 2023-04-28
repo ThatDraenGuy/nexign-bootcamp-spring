@@ -1,18 +1,25 @@
-version: '3'
+version: '3.9'
 services:
   artemis:
     image: quay.io/artemiscloud/activemq-artemis-broker
     environment:
       - AMQ_USER=aboba
       - AMQ_PASSWORD=aboba
+      - AMQ_PORT=${ARTEMIS_PORT}
     ports:
       - "8161:8161"
-      - "61616:61616"
+      - "${ARTEMIS_PORT}:${ARTEMIS_PORT}"
+    healthcheck:
+      test: "curl --silent --fail artemis:8161/console || exit 1"
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
 
-  postgresql:
+  postgres:
     image: postgres:11-alpine
     environment:
       - POSTGRES_USER=aboba
@@ -22,6 +29,12 @@ services:
       - "54320:5432"
     volumes:
       - ./postgres-volume:/var/lib/postgresql/volumes
+    healthcheck:
+      test: "pg_isready -d nexign_bootcamp -U aboba"
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -31,7 +44,15 @@ services:
       context: server-config
       dockerfile: Dockerfile
     ports:
-      - "8888:8888"
+      - "${SERVER_CONFIG_PORT}:${SERVER_CONFIG_PORT}"
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail server-config:${SERVER_CONFIG_PORT}/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -41,11 +62,24 @@ services:
       context: crm
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "${CRM_PORT}:${CRM_PORT}"
     depends_on:
-      - postgresql
-      - artemis
-      - server-config
+      postgres:
+        condition: service_healthy
+      artemis:
+        condition: service_healthy
+      server-config:
+        condition: service_healthy
+      brt:
+        condition: service_healthy
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail crm:${CRM_PORT}/crm/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -55,12 +89,24 @@ services:
       context: brt
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "${BRT_PORT}:${BRT_PORT}"
     depends_on:
-      - postgresql
-      - artemis
-      - server-config
-      - hrs
+      postgres:
+        condition: service_healthy
+      artemis:
+        condition: service_healthy
+      server-config:
+        condition: service_healthy
+      hrs:
+        condition: service_healthy
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail brt:${BRT_PORT}/brt/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -72,12 +118,24 @@ services:
       context: hrs
       dockerfile: Dockerfile
     ports:
-      - "8082:8082"
+      - "${HRS_PORT}:${HRS_PORT}"
     depends_on:
-      - postgresql
-      - artemis
-      - server-config
-      - data-gen
+      postgres:
+        condition: service_healthy
+      artemis:
+        condition: service_healthy
+      server-config:
+        condition: service_healthy
+      data-gen:
+        condition: service_healthy
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail hrs:${HRS_PORT}/hrs/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -89,11 +147,20 @@ services:
       context: data-gen
       dockerfile: Dockerfile
     ports:
-      - "8083:8083"
+      - "${DATA_GEN_PORT}:${DATA_GEN_PORT}"
     depends_on:
-      - postgresql
-      - artemis
-      - server-config
+      postgres:
+        condition: service_healthy
+      server-config:
+        condition: service_healthy
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail data-gen:${DATA_GEN_PORT}/data-gen/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - cdr-network
     restart: always
@@ -105,13 +172,24 @@ services:
       context: gateway
       dockerfile: Dockerfile
     ports:
-      - "8084:8084"
+      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
     depends_on:
-      - postgresql
-      - artemis
-      - server-config
-      - crm
-      - data-gen
+      postgres:
+        condition: service_healthy
+      server-config:
+        condition: service_healthy
+      crm:
+        condition: service_healthy
+      data-gen:
+        condition: service_healthy
+    env_file:
+      - .env
+    healthcheck:
+      test: "curl --silent --fail gateway:${GATEWAY_PORT}/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       cdr-network:
         ipv4_address: 172.25.0.101
