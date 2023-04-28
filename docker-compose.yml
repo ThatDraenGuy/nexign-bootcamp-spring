@@ -43,6 +43,7 @@ services:
     build:
       context: server-config
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-server-config
     ports:
       - "${SERVER_CONFIG_PORT}:${SERVER_CONFIG_PORT}"
     env_file:
@@ -61,6 +62,7 @@ services:
     build:
       context: crm
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-crm
     ports:
       - "${CRM_PORT}:${CRM_PORT}"
     depends_on:
@@ -88,6 +90,7 @@ services:
     build:
       context: brt
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-brt
     ports:
       - "${BRT_PORT}:${BRT_PORT}"
     depends_on:
@@ -117,6 +120,7 @@ services:
     build:
       context: hrs
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-hrs
     ports:
       - "${HRS_PORT}:${HRS_PORT}"
     depends_on:
@@ -146,6 +150,7 @@ services:
     build:
       context: data-gen
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-data-gen
     ports:
       - "${DATA_GEN_PORT}:${DATA_GEN_PORT}"
     depends_on:
@@ -171,6 +176,7 @@ services:
     build:
       context: gateway
       dockerfile: Dockerfile
+    image: thatdraenguy/nexign-bootcamp-gateway
     ports:
       - "${GATEWAY_PORT}:${GATEWAY_PORT}"
     depends_on:
