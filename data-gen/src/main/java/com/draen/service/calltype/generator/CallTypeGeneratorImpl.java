@@ -7,14 +7,11 @@ import java.util.Random;
 
 @Service
 public class CallTypeGeneratorImpl implements CallTypeGenerator {
-    @Value("${custom.chance.incoming-call-type}")
     private double incomingCallTypeChance = 0.5;
 
-    @Value("${custom.constants.call-type-code.incoming}")
-    private String incomingCallTypeCode;
+    private String incomingCallTypeCode = "01";
 
-    @Value("${custom.constants.call-type-code.outgoing}")
-    private String outgoingCallTypeCode;
+    private String outgoingCallTypeCode = "02";
 
     private final Random random = new Random();
 

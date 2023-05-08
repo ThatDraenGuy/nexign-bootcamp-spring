@@ -31,6 +31,8 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.6.0'
 
     implementation project(':common')
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.6'
 }
 
 dependencyManagement {
@@ -39,6 +41,6 @@ dependencyManagement {
     }
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
