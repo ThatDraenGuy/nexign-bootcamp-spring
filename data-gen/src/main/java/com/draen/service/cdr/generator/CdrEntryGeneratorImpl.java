@@ -29,7 +29,7 @@ public class CdrEntryGeneratorImpl implements CdrEntryGenerator {
         DateTimePair dateTimePair = localDateTimeGenerator.generateDateTime();
         return new CdrEntry(
                 callTypeGenerator.generateCallType(),
-                phoneNumberGenerator.generateNumber(),
+                phoneNumberGenerator.generateNewNumber(),
                 dateTimePair.getStart().format(formatter),
                 dateTimePair.getEnd().format(formatter)
         );

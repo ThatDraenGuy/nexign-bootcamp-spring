@@ -13,24 +13,8 @@ public class PhoneNumberGeneratorImpl implements PhoneNumberGenerator {
 
     private final Random random = new Random();
 
-    private final ClientService clientService;
-
-    public PhoneNumberGeneratorImpl(ClientService clientService) {
-        this.clientService = clientService;
-    }
-
-    @Override
-    public String generateNumber() {
-        if (random.nextDouble() <= existingNumberChance) {
-            return clientService.findRandom().getPhoneNumber();
-        } else {
-            return generateNewNumber();
-        }
-
-    }
-
     public String generateNewNumber() {
-        long number = random.nextLong(1000000000L, 9999999999L);
-        return "7" + number;
+        long number = random.nextLong(100000000L, 999999999L);
+        return "79" + number;
     }
 }
