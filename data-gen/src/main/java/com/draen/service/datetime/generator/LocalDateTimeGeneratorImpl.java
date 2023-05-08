@@ -1,27 +1,22 @@
 package com.draen.service.datetime.generator;
 
 import com.draen.data.DateTimePair;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Random;
 
 @Service
 public class LocalDateTimeGeneratorImpl implements LocalDateTimeGenerator {
-    @Value("${custom.boundaries.datetime.lower}")
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-    private LocalDateTime lowerBound;
 
-    @Value("${custom.boundaries.datetime.higher}")
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-    private LocalDateTime higherBound;
+    private LocalDateTime lowerBound = LocalDateTime.of(2023, Month.JANUARY, 1, 0, 0, 0);
 
-    @Value("${custom.boundaries.datetime.max-duration}")
-    private Duration maxDuration;
+    private LocalDateTime higherBound = LocalDateTime.now();
+
+    private Duration maxDuration = Duration.ofHours(1);
 
     private final Random random = new Random();
 
